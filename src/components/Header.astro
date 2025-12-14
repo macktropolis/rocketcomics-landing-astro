@@ -41,21 +41,22 @@ const { siteName, author, url, logo, description } = Astro.props;
         & > img.logo {
             display: block;
             height: auto;
-            margin-top: 1rem;
+            margin-top: 0;
             margin-inline: auto;
             position: relative;
-            width: 300px;
+            width: 400px;
             z-index: 1;
         }
         .ribbon {
             position: relative;
             padding: 0;
-            margin: 0 0 0 20px;
-            margin-top: -10px;
+            margin: 0 0 0 10px;
+            margin-top: -45px;
+            z-index: 2;
 
             > img {
                 display: block;
-                margin: 0;
+                margin: 0 auto;
             }
             > p {
                 align-items: center;
@@ -67,7 +68,7 @@ const { siteName, author, url, logo, description } = Astro.props;
                 left: 45px;
                 margin: 0;
                 padding: 0;
-                padding-inline: 20px;
+                padding-inline: 40px;
                 position: absolute;
                 right: 45px;
                 text-align: center;
@@ -81,11 +82,11 @@ const { siteName, author, url, logo, description } = Astro.props;
                 font-weight: bold;
             }
             > span:nth-child(even) {
-                left: -30px;
+                left: -5px;
             }
             > span:nth-child(odd) {
                 left: auto;
-                right: -35px;
+                right: -15px;
             }
         }
     }
