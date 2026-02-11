@@ -1,0 +1,56 @@
+/*
+--------------------------------------------------------------
+styles/
+|
+|-- global.css                  <- Global CSS file that imports all other style layers
+    |-- stylesheets/
+        |
+        |-- reset.css           <- CSS Reset layer
+        |-- variables.css       <- CSS Variables layer
+        |-- base.css            <- Default element styles layer
+        |-- components.css      <- Component styles layer
+        |-- utilities.css       <- Utility classes layer
+        |-- theme.css           <- Theme-specific styles layer
+--------------------------------------------------------------
+*/
+
+
+/**
+Reset – resets the default styles of all elements.
+This layer is used to reset and standardize styles across different browsers.
+*/
+@import url('stylesheets/01_reset.css');
+
+/**
+Variables – global variables that are used throughout the project.
+This layer is used to set up the project’s color palette, typography, spacing,
+and other values that are used throughout the project.
+*/
+@import url('stylesheets/02_variables.css');
+
+/**
+Base – styles that are applied to elements directly. No classes or IDs in
+this layer. This layer is the most foundational and is used to set up the base
+styles for the project and serve as a starting point for all components and
+layouts.
+*/
+@import url('stylesheets/03_base.css');
+
+/**
+Components – styles applied to classes and IDs. This layer is used
+to style individual components and is where the majority of the project’s
+styling is done. However if the job is done correctly in the defaults layer,
+this layer should be relatively easy to style.
+*/
+@import url('stylesheets/04_components.css');
+
+/**
+Utilities – special purpose classes used to apply styles to elements.
+*/
+@import url('stylesheets/05_utilities.css');
+
+/**
+Demo Styles – styles to be used as the baseline for the current theme.
+This layer is temporary and should be deleted or used as a baseline for a new theme.
+*/
+@import url('stylesheets/06_theme.css');

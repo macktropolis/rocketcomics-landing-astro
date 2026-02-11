@@ -22,35 +22,5 @@ import SocialShare from "./SocialShare.astro";
     </article>
     <SocialShare />
 </section>
-<style lang="scss">
-    @use "../styles/variables" as vars;
 
-    .outro {
-        margin: 3rem auto 0 auto;
-        position: relative;
-        width: 90%;
-        z-index: 1;
 
-        @media screen and (min-width: 768px) {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: vars.$max-width;
-        }
-
-        article {
-            height: fit-content;
-            @media screen and (min-width: 768px) {
-                width: 75%;
-            }
-        }
-
-        h2 {
-            margin-bottom: 1rem;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-    }
-</style>

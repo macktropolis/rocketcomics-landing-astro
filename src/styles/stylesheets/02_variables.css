@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'silverage';
+    src: url('/fonts/silverage/silveragelcbb-webfont.eot');
+    src: url('/fonts/silverage/silveragelcbb-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/silverage/silveragelcbb-webfont.woff') format('woff'),
+         url('/fonts/silverage/silveragelcbb-webfont.ttf') format('truetype'),
+         url('/fonts/silverage/silveragelcbb-webfont.svg#SilverAgeLCBBRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'wieringo';
+    src: url('/fonts/wieringo/ccmikewieringoregular-webfont.eot');
+    src: url('/fonts/wieringo/ccmikewieringoregular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/wieringo/ccmikewieringoregular-webfont.woff') format('woff'),
+         url('/fonts/wieringo/ccmikewieringoregular-webfont.ttf') format('truetype'),
+         url('/fonts/wieringo/ccmikewieringoregular-webfont.svg#CCMikeWieringoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    
+/* Colors */
+--clr-blueline: #90cadd;
+--clr-bristol: #fdfcf8;
+
+/* Font Families */
+--ff-wieringo: "wieringo", sans-serif;
+--ff-silverage: "silverage", serif;
+}
