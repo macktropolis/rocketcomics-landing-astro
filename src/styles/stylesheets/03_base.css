@@ -1,3 +1,103 @@
 body {
+    background: var(--clr-bristol);
+    color: var(--clr-blueline);
+    font-family: var(--ff-silverage);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
     min-height: 100dvh;
+}
+/* Typography
+-------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--ff-wieringo);  
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    letter-spacing: min(0.05em, 0.1vw);  
+    margin: clamp(1.5rem, 4vw, 3rem) 0 0.5rem;
+}
+h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+p {
+    margin-bottom: clamp(.75rem, 2vw, 1.5rem);
+    line-height: clamp(1.4, 2vw, 1.75);
+}
+
+/* Links
+-------------------------------------------------------------- */
+a {
+    color: var(--clr-blueline-light);
+    position: relative;
+    text-decoration: none;
+}
+a::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    bottom: 0.05em;
+    height: 0.15em;
+    background: currentColor;
+    opacity: 0.9;
+    transform: rotate(-1deg);
+    transition: 600ms ease-in-out;
+    border-radius: 100px;
+    }
+a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+a:hover::after {
+    opacity: 0;
+}
+a:has(img)::after {
+    content: none;
+}
+/* Image
+-------------------------------------------------------------- */
+img {
+    max-width: 100%;
+}
+
+/* Figure
+-------------------------------------------------------------- */
+figure {
+    padding: 0;
+    margin-block-start: 0;
+    margin-inline-start: 0;
+}
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+figcaption {
+    text-align: center;
+}
+
+/* Main Content
+-------------------------------------------------------------- */
+main {
+    margin-block: clamp(2rem, 5vw, 4rem);
+}
+main figure {
+    position: relative;
+    display: inline-block;
+}
+main figure::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--clr-blueline);
+    mix-blend-mode: color;
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+main figure::before,
+main figure::after {
+    transition: opacity 600ms ease-in-out;
+}
+
+main figure:hover::before,
+main figure:hover::after {
+    opacity: 0;
 }

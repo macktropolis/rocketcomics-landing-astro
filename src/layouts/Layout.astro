@@ -5,6 +5,7 @@ import * as site from "../data/site.json";
 import BaseHead from "../components/BaseHead.astro";
 import BaseEnd from "../components/BaseEnd.astro";
 import Header from "../components/Header.astro";
+import Outro from "../components/Outro.astro";
 import Footer from "../components/Footer.astro";
 
 const { siteName, author, url, logo } = site;
@@ -14,29 +15,17 @@ const { siteName, author, url, logo } = site;
 <html lang="en">
 	<BaseHead />
 	<body>
-		<Header siteName={siteName} author={author} url={url} logo={logo} />
-		<main>
-			<slot />
-		</main>
-		<Footer />
-
-		<img
-			src="/images/astronaut.webp"
-			alt="Astronaut"
-			class="float"
-			id="astronaut"
-		/>
-		<img src="/images/earth.webp" alt="Earth" class="rotate" id="earth" />
-		<img src="/images/mars.webp" alt="Mars" class="rotate" id="mars" />
-		<img src="/images/mars.webp" alt="Moon" class="rotate" id="moon" />
-		<div class="sky">
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
+		<div class="page">
+			<Header siteName={siteName} author={author} url={url} logo={logo} />
+			<main>
+				<slot />
+			</main>
+			<Outro />
+			<Footer />
+			<div class="reg reg--tl"><div class="ring"></div></div>
+			<div class="reg reg--tr"><div class="ring"></div></div>
+			<div class="reg reg--bl"><div class="ring"></div></div>
+			<div class="reg reg--br"><div class="ring"></div></div>
 		</div>
 		<BaseEnd />
 	</body>

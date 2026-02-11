@@ -10,7 +10,6 @@ styles/
         |-- base.css            <- Default element styles layer
         |-- components.css      <- Component styles layer
         |-- utilities.css       <- Utility classes layer
-        |-- theme.css           <- Theme-specific styles layer
 --------------------------------------------------------------
 */
 
@@ -48,9 +47,3 @@ this layer should be relatively easy to style.
 Utilities – special purpose classes used to apply styles to elements.
 */
 @import url('stylesheets/05_utilities.css');
-
-/**
-Demo Styles – styles to be used as the baseline for the current theme.
-This layer is temporary and should be deleted or used as a baseline for a new theme.
-*/
-@import url('stylesheets/06_theme.css');

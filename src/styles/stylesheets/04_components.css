@@ -1,4 +1,206 @@
+/* Cards
+-------------------------------------------------------------- */
 .card {
     display: block;
     justify-content: space-around;
+}
+
+/* Page
+-------------------------------------------------------------- */
+.page {
+    position: relative;
+    margin-inline: auto;
+    width: min(90dvw, 120ch);
+    min-height: 100dvh;
+    padding: clamp(1rem, 2vw, 2rem);
+
+    --reg-size: 26px;   /* total cross size */
+    --reg-gap: 12px;    /* inset from edges */
+    --reg-stroke: 2px;
+    --reg-circle: 12px; /* set 0 to disable */
+}
+
+/* Header
+-------------------------------------------------------------- */
+.header > :where(h1, h2) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+}
+.header__logo {
+    display: block;
+    height: auto;
+    margin-top: -2rem;
+    margin-inline: auto;
+    mix-blend-mode: multiply;
+    max-width: 50%;
+} 
+
+/* Registration Marks
+-------------------------------------------------------------- */
+.reg {
+    position: absolute;
+    width: var(--reg-size);
+    height: var(--reg-size);
+    opacity: 0.8;
+    pointer-events:none;
+}
+.reg::before,
+.reg::after {
+  content:"";
+  position: absolute;
+  inset:0;
+  margin: auto;
+  background: var(--clr-blueline);
+}
+
+.reg::before {
+  width: var(--reg-stroke);
+  height: 100%;
+}
+.reg::after {
+  height: var(--reg-stroke);
+  width: 100%;
+}
+
+.reg > .ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--reg-circle);
+  height: var(--reg-circle);
+  border: var(--reg-stroke) solid var(--clr-blueline);
+  border-radius: 999px;
+}
+
+/* positions */
+.reg--tl { top: var(--reg-gap); left: var(--reg-gap); }
+.reg--tr { top: var(--reg-gap); right: var(--reg-gap); }
+.reg--bl { bottom: var(--reg-gap); left: var(--reg-gap); }
+.reg--br{ bottom: var(--reg-gap); right: var(--reg-gap); }
+
+.left, .right {
+    display: block;
+    float: left;
+    margin: 0;
+    margin-right: clamp(1rem, 2vw, 2rem);
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    text-align: center;
+}
+
+.right {
+    float: right;
+    margin-right: 0;
+    margin-left: clamp(1rem, 2vw, 2rem);
+}
+
+.center {
+    text-align: center;
+}
+
+/* Gallery
+-------------------------------------------------------------- */å
+.gallery {
+    max-width: 90rem;
+    margin-inline: auto;
+}
+
+.gallery-images { 
+    width: fit-content; 
+    margin-inline: auto; 
+}
+
+@supports (display: grid-lanes) {
+    .gallery-images {
+        display: grid-lanes;
+        gap: 5px;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    }
+}
+@supports not (display: grid-lanes) {
+    .gallery-images {
+        columns: 400px; /* This line simulates the masonry layout */
+        column-gap: 5px;
+    }
+}
+.gallery-images figure {
+    break-inside: avoid;
+    margin: 0;
+    padding: 0;
+}
+.gallery-images figure::before {
+    transition: opacity 600ms ease-in-out;
+}
+.handdrawn,
+.gallery-images figure {
+    --sketch: var(--clr-blueline);
+    border: 10px solid transparent;
+    /* Inline SVG as border-image */
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M10 18 C 30 6, 56 10, 110 14 C 114 38, 112 62, 108 106 C 84 112, 54 114, 12 108 C 6 88, 8 58, 10 18 Z' fill='none' stroke='%2390cadd' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 25 round;
+    border-radius: 16px;
+    position: relative;
+    display: inline-block;
+}
+.handdrawn figcaption,
+.gallery-images figure figcaption {
+    border: 2px solid var(--clr-blueline);
+    box-shadow: 5px 5px 0 var(--clr-bristol);
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: fit-content;
+    max-width: 75%;
+    padding: 0.5em;
+    background: var(--clr-blueline-light);
+    color: var(--clr-bristol);
+    font-family: var(--ff-wieringo);
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+    z-index: 101;
+}
+.sketchify img,
+.gallery-images figure img {
+    filter: grayscale(1) contrast(1.3);
+    margin: 0;
+}
+.sketchify:hover img,
+.gallery-images figure:hover img {
+    filter: grayscale(0) contrast(1);
+}
+
+/* overlay */
+.sketchify::before,
+.gallery-images figure::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+        135deg,
+        rgba(49, 177, 220, 0.08) 0px,
+        rgba(49, 177, 220, 0.08) 1px,
+        rgba(49, 177, 220, 0) 3px,
+        rgba(49, 177, 220, 0) 6px
+        ),
+        repeating-linear-gradient(
+        45deg,
+        rgba(49, 177, 220, 0.05) 0px,
+        rgba(49, 177, 220, 0.05) 1px,
+        rgba(49, 177, 220, 0) 4px,
+        rgba(49, 177, 220, 0) 8px
+        );
+
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    z-index: 100;
+}
+
+/* Outro
+-------------------------------------------------------------- */
+.outro {
+    display: flex;
 }

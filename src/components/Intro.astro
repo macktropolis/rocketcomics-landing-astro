@@ -1,0 +1,107 @@
+---
+const { siteName, author, url } = Astro.props;
+---
+
+<h1 class="center">Welcome Back to {siteName}!</h1>
+<div class="bigbox">
+    <figure class="og-logo">
+        <img
+            src="/images/rocket_comics_logo.png"
+            alt="The original Rocket Comics logo."
+        />
+        <figcaption>The original Rocket Comics logo.</figcaption>
+    </figure>
+    <article>
+        <p>
+            In 1991, Mack Richardson opened the doors of Rocket Comics in
+            Burlington, NC. It was an exciting time to be a comic book fan and,
+            <b>doubly so</b>, for those who wanted to share their love of comics with
+            others. Mack's shop was a place where fans could gather, talk about
+            their favorite characters, and discover new stories. It was a comic
+            book shop meant for comic book fans.
+        </p>
+        <p>
+            Even though the shop has been closed for many years now, the spirit
+            of Rocket Comics lives on. This site is a tribute to the shop and
+            the fans who made it a special place.
+        </p>
+        <p>
+            The comic book industry <i>(and world, at large)</i> has changed so much
+            over the last 30 years. In many ways, it seems to be a much more challenging
+            environment to successfully operate a comic book shop. That being said,
+            plans are in the works to reopen Rocket Comics. <strong
+                >Stay tuned!</strong
+            >
+        </p>
+    </article>
+    <figure class="handdrawn">
+        <img
+            src="/images/rocket_comics/rocket_comics_0.webp"
+            alt="An early advertisement for Rocket Comics in the Burlington-Times News."
+        />
+        <figcaption>
+            An early advertisement for Rocket Comics in the Burlington-Times
+            News.
+        </figcaption>
+    </figure>
+</div>
+
+<style lang="css">
+    .og-logo::after {
+        display: none;
+    }
+    /* ------------------------------------------------------------
+   BIGBOX LAYOUT
+   Mobile-first: stacked
+------------------------------------------------------------- */
+
+    .bigbox {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 90rem;
+        margin-inline: auto;
+        padding: 1.5rem;
+    }
+
+    /* Images behave nicely */
+    .bigbox img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    /* Keep captions readable but subtle */
+    .bigbox figcaption {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        opacity: 0.8;
+        text-align: center;
+    }
+
+    .bigbox figure.handdrawn figcaption {
+        opacity: 1;
+        margin: 0;
+    }
+
+    /* ------------------------------------------------------------
+   Widescreen: 3-column layout
+------------------------------------------------------------- */
+
+    @media (min-width: 64rem) {
+        .bigbox {
+            flex-direction: row;
+        }
+
+        .bigbox > figure {
+            flex: 1 1 0;
+            max-width: 20rem;
+        }
+
+        .bigbox > article {
+            flex: 2 1 0;
+            max-width: 40rem;
+        }
+    }
+</style>

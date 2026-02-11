@@ -3,8 +3,7 @@
 import * as site from "../data/site.json";
 
 import Layout from "../layouts/Layout.astro";
-import Welcome from "../components/Welcome.astro";
-import Outro from "../components/Outro.astro";
+import Welcome from "../components/Intro.astro";
 import Gallery from "../components/Gallery.astro";
 
 const { siteName, author } = site;
@@ -13,5 +12,4 @@ const { siteName, author } = site;
 <Layout>
     <Welcome siteName={siteName} author={author} />
     <Gallery />
-    <Outro />
 </Layout>

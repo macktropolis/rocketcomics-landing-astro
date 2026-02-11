@@ -1,7 +1,7 @@
 ---
 const { id, alt, title } = Astro.props;
 const src = "/images/rocket_comics";
-const filename = "rocket_comics_" + id + ".jpg";
+const filename = "rocket_comics_" + id + ".webp";
 const href = src + "/" + filename;
 ---
 
@@ -14,5 +14,5 @@ const href = src + "/" + filename;
         />
     </a>
 
-    <!-- <figcaption>{alt ?? "A day at Rocket Comics"}</figcaption> -->
+    <figcaption>{alt ?? "A day at Rocket Comics"}</figcaption>
 </figure>

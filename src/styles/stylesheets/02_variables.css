@@ -23,7 +23,8 @@
 :root {
     
 /* Colors */
---clr-blueline: #90cadd;
+--clr-blueline: #31b1dc;
+--clr-blueline-light: #90cadd;
 --clr-bristol: #fdfcf8;
 
 /* Font Families */
