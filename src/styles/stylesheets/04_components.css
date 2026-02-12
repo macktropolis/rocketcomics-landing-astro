@@ -133,12 +133,12 @@
     .gallery-images {
         display: grid-lanes;
         gap: 10px;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 }
 @supports not (display: grid-lanes) {
     .gallery-images {
-        columns: 300px; /* This line simulates the masonry layout */
+        columns: 350px; /* This line simulates the masonry layout */
         column-gap: 10px;
     }
 }
