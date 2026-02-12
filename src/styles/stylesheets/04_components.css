@@ -34,10 +34,10 @@
 .page::after {
     content: "";
     position: absolute;
-    inset: var(--reg-gap-v) var(--reg-gap-h);
+    inset: 0;
     margin: auto;
     width: 99%;
-    height: 99.90%;
+    height: 100%;
     border-top: 2px dashed var(--clr-blueline);
     border-bottom: 2px dashed var(--clr-blueline);
 }
