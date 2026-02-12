@@ -1,12 +1,13 @@
 ---
-const { id, alt, title, class: className } = Astro.props;
+const { id, alt, title } = Astro.props;
 const src = "/images/rocket_comics";
-const filename = "rocket_comics_" + id + ".webp";
+const filename_root = "rocket_comics_" + id;
+const filename = filename_root + ".webp";
 const href = src + "/" + filename;
 ---
 
-<figure class={className}>
-    <a href={href} title={title ?? "Rocket Comics"} target="_blank">
+<figure>
+    <a href={"#" + filename_root} title={title ?? "Rocket Comics"} class="thumb">
         <img
             src={href}
             alt={alt ?? "A day at Rocket Comics"}
@@ -17,3 +18,25 @@ const href = src + "/" + filename;
 
     <figcaption>{alt ?? "A day at Rocket Comics"}</figcaption>
 </figure>
+
+<div
+    id={filename_root}
+    tabindex="-1"
+    class="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label={alt ?? "A day at Rocket Comics"}
+>
+    <a href="#!" class="lightbox__overlay" aria-label="Close"></a>
+    <figure class="lightbox__content">
+        <img
+            src={href}
+            alt={alt ?? "A day at Rocket Comics"}
+            title={title ?? "Rocket Comics"}
+            loading="lazy"
+        />
+
+        <figcaption>{alt ?? "A day at Rocket Comics"}</figcaption>
+        <a href="#!" class="lightbox__close" aria-label="Close">×</a>
+    </figure>
+</div>

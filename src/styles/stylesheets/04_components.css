@@ -14,9 +14,9 @@
     min-height: 100dvh;
     padding: clamp(2.25rem, 3vw, 4rem);
 
-    --reg-size: 24px;   /* total cross size */
+    --reg-size: 36px;   /* total cross size */
     --reg-gap-h: -10px;    /* inset from horizontal edges */
-    --reg-gap-v: 0;    /* inset from vertical edges */
+    --reg-gap-v: -10px;    /* inset from vertical edges */
     --reg-stroke: 2px;
     --reg-circle: 12px; /* set 0 to disable */
 }
@@ -26,8 +26,8 @@
     position: absolute;
     inset: 0;
     margin: auto;
-    width: 99%;
-    height: 99.8%;
+    width: 100%;
+    height: 100%;
     border-left: 2px dashed var(--clr-blueline);
     border-right: 2px dashed var(--clr-blueline);
 }
@@ -36,19 +36,10 @@
     position: absolute;
     inset: 0;
     margin: auto;
-    width: 99%;
+    width: 100%;
     height: 100%;
     border-top: 2px dashed var(--clr-blueline);
     border-bottom: 2px dashed var(--clr-blueline);
-}
-
-@media (min-width: 64rem) {
-    .page::before {
-        width: 99.99%;
-    }
-    .page::after {
-        height: 99.80%;
-    }
 }
 
 /* Header
@@ -79,10 +70,10 @@
 -------------------------------------------------------------- */
 .reg {
     background-color: var(--clr-bristol);
+    border-radius: 999px;
     position: absolute;
     width: var(--reg-size);
     height: var(--reg-size);
-    opacity: 0.8;
     pointer-events:none;
     z-index: 100;
 }
@@ -97,11 +88,11 @@
 
 .reg::before {
   width: var(--reg-stroke);
-  height: 100%;
+  height: 50%;
 }
 .reg::after {
   height: var(--reg-stroke);
-  width: 100%;
+  width: 50%;
 }
 
 .reg > .ring {
@@ -127,6 +118,8 @@
     margin-inline: auto;
 }
 
+/* Gallery Images
+-------------------------------------------------------------- */
 .gallery-images { 
     width: fit-content; 
     margin-inline: auto; 
@@ -151,6 +144,7 @@
     padding: 0;
 }
 
+/* Handdrawn Border + Gallery Images Figure */
 .handdrawn,
 .gallery-images figure {
     --sketch: var(--clr-blueline);
@@ -165,7 +159,7 @@
 .gallery-images figure figcaption {
     background: var(--clr-blueline-light);
     border: 2px solid var(--clr-blueline);
-    box-shadow: 5px 5px 0 var(--clr-bristol);
+    box-shadow: 3px 3px 0 var(--clr-bristol);
     color: var(--clr-bristol);
     font-family: var(--ff-display);
     left: -10px;
@@ -196,6 +190,98 @@
 .gallery-images figure a:hover img {
     filter: none;
 }
+
+/* Modal
+-------------------------------------------------------------- */
+/* Thumbnail affordance */
+.gallery-images .thumb img {
+  cursor: zoom-in;
+}
+
+/* Lightbox base */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 9999;
+}
+
+/* Open state */
+.lightbox:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Click-out overlay */
+.gallery-images .lightbox__overlay {
+  position: absolute;
+  inset: 0;
+}
+
+/* Modal content */
+.gallery-images figure.lightbox__content {
+  position: relative;
+  margin: 0;
+  max-width: min(92vw, 1200px);
+  max-height: 88vh;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+}
+.gallery-images figure.lightbox__content::after {
+    display: none;
+}
+/* Image sizing */
+.gallery-images figure.lightbox__content img {
+    mix-blend-mode: normal;
+    filter: none;
+    width: 100%;
+    height: auto;
+    max-width: 92vw;
+    max-height: 78vh;
+    object-fit: contain;
+    cursor: zoom-out;
+}
+
+/* Caption */
+.gallery-images figure.lightbox__content figcaption {
+    color: var(--clr-bristol);
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* Close button */
+.gallery-images figure.lightbox__content a.lightbox__close {
+    background-color: var(--clr-blueline-light);
+    border: 2px solid var(--clr-blueline);
+    box-shadow: 3px 3px 0 var(--clr-bristol);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    color: var(--clr-bristol);
+    text-decoration: none;
+    transition: box-shadow 300ms ease-in-out;
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.gallery-images figure.lightbox__content a.lightbox__close::after {
+    display: none;
+}
+.gallery-images figure.lightbox__content a.lightbox__close:hover {
+  box-shadow: 0 0 0 var(--clr-bristol);
+}
+
 /* Outro
 -------------------------------------------------------------- */
 .outro {
