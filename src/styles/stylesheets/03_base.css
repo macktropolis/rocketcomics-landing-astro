@@ -8,8 +8,7 @@ body {
 /* Typography
 -------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--ff-display);  
-    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-family: var(--ff-display);
     font-weight: 900;
     letter-spacing: min(0.05em, 0.1vw);  
     margin: clamp(1.5rem, 4vw, 3rem) 0 0.5rem;

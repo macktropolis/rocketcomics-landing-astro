@@ -55,7 +55,8 @@
 .header__logo {
     display: block;
     height: auto;
-    margin-top: -2rem;
+    margin-top: clamp(-2rem, -3vw, -4rem);
+    margin-bottom: clamp(-1rem, -2vw, -3rem);
     margin-inline: auto;
     mix-blend-mode: multiply;
     width: 90%;
