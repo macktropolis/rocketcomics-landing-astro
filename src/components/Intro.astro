@@ -30,26 +30,18 @@ const { siteName, author, url } = Astro.props;
     </p>
 </article>
 <style lang="css">
-    .og-logo {
-        mix-blend-mode: multiply;
-        display: block;
-        height: auto;
-        margin-inline: auto;
-        margin-bottom: 2rem;
-        width: 30%;
-    }
-    .og-logo::after {
-        display: none;
-    }
     /* ------------------------------------------------------------
    INTRO LAYOUT
    Mobile-first: stacked
 ------------------------------------------------------------- */
+    h1 {
+        margin-bottom: clamp(1rem, 5vw, 3rem);
+    }
     .intro {
         clear: both;
-        max-width: 90rem;
+        max-width: 80ch;
         margin-inline: auto;
-        padding: 1.5rem;
+        margin-bottom: clamp(3rem, 10vw, 6rem);
     }
     /* Keep captions readable but subtle */
     .intro figcaption {
@@ -66,6 +58,17 @@ const { siteName, author, url } = Astro.props;
         opacity: 1;
         margin: 0;
     }
+    .og-logo {
+        mix-blend-mode: multiply;
+        display: block;
+        height: auto;
+        margin-inline: auto;
+        margin-bottom: 2rem;
+        width: 30%;
+    }
+    .og-logo::after {
+        display: none;
+    }
 
     /* ------------------------------------------------------------
    Widescreen: 3-column layout
@@ -78,7 +81,7 @@ const { siteName, author, url } = Astro.props;
             width: 25%;
             shape-outside: circle(50%);
             clip-path: circle(50%);
-            margin: .5rem 1.25rem 1rem 0;
+            margin: 0.5rem 1.25rem 1rem 0;
         }
     }
 </style>

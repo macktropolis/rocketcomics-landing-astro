@@ -91,22 +91,21 @@ const images = Object.entries(modules)
     .sort((a, b) => Number(a.id) - Number(b.id));
 ---
 
-<header>
-    <h2 class="center">
-        <i class="fa-utility-fill fa-semibold fa-rocket-launch"></i> Rocket Comics
-        Memories
-    </h2>
-    <p class="center">
-        <small
-            ><i
-                >Please excuse the quality of some of these photos. Higher
-                quality scans are in the works.</i
-            ></small
-        >
-    </p>
-</header>
-
 <div class="gallery">
+    <header class="gallery__header">
+        <h2 class="center">
+            <i class="fa-utility-fill fa-semibold fa-rocket-launch"></i> Rocket Comics
+            Memories
+        </h2>
+        <p class="center">
+            <small
+                ><i
+                    >Please excuse the quality of some of these photos. Higher
+                    quality scans are in the works.</i
+                ></small
+            >
+        </p>
+    </header>
     <div class="gallery-images">
         {
             images.map((img) => (
