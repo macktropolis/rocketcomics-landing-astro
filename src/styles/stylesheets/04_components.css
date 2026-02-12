@@ -14,7 +14,7 @@
     min-height: 100dvh;
     padding: clamp(2.25rem, 3vw, 4rem);
 
-    --reg-size: 36px;   /* total cross size */
+    --reg-size: 32px;   /* total cross size */
     --reg-gap-h: -10px;    /* inset from horizontal edges */
     --reg-gap-v: -10px;    /* inset from vertical edges */
     --reg-stroke: 2px;
