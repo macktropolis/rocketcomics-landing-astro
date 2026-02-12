@@ -23,6 +23,7 @@
 
 .page::before {
     content: "";
+    pointer-events: none;
     position: absolute;
     inset: 0;
     margin: auto;
@@ -30,10 +31,11 @@
     height: 100%;
     border-left: 2px dashed var(--clr-blueline);
     border-right: 2px dashed var(--clr-blueline);
-    z-index: 0;
+    z-index: -1;
 }
 .page::after {
     content: "";
+    pointer-events: none;
     position: absolute;
     inset: 0;
     margin: auto;
