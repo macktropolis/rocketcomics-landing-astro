@@ -1,3 +1,19 @@
+.center {
+    text-align: center;
+}
+.left, .right {
+    display: block;
+    float: left;
+    margin: 0;
+    margin-right: clamp(1rem, 2vw, 2rem);
+    margin-bottom: clamp(1rem, 2vw, 2rem);
+    text-align: center;
+}
+.right {
+    float: right;
+    margin-right: 0;
+    margin-left: clamp(1rem, 2vw, 2rem);
+}
 .xx-large {
     font-size: calc(inherit + 2.5rem);
 }

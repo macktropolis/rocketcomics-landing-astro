@@ -1,17 +1,19 @@
 body {
     background: var(--clr-bristol);
     color: var(--clr-blueline);
-    font-family: var(--ff-silverage);
+    font-family: var(--ff-body);
     font-size: clamp(1.25rem, 2vw, 1.5rem);
     min-height: 100dvh;
 }
 /* Typography
 -------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--ff-wieringo);  
+    font-family: var(--ff-display);  
     font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 900;
     letter-spacing: min(0.05em, 0.1vw);  
     margin: clamp(1.5rem, 4vw, 3rem) 0 0.5rem;
+    text-wrap: balance;
 }
 h1 {
     font-size: clamp(2rem, 5vw, 3.5rem);
@@ -19,14 +21,17 @@ h1 {
 p {
     margin-bottom: clamp(.75rem, 2vw, 1.5rem);
     line-height: clamp(1.4, 2vw, 1.75);
+    text-wrap: pretty;
 }
 
 /* Links
 -------------------------------------------------------------- */
 a {
     color: var(--clr-blueline-light);
+    display: inline-block;
     position: relative;
     text-decoration: none;
+    white-space: nowrap;
 }
 a::after {
     content: "";
@@ -60,6 +65,7 @@ img {
 /* Figure
 -------------------------------------------------------------- */
 figure {
+    font-size: clamp(0.75rem, 1vw, 0.85rem);
     padding: 0;
     margin-block-start: 0;
     margin-inline-start: 0;
@@ -75,9 +81,6 @@ figcaption {
 
 /* Main Content
 -------------------------------------------------------------- */
-main {
-    margin-block: clamp(2rem, 5vw, 4rem);
-}
 main figure {
     position: relative;
     display: inline-block;

@@ -3,7 +3,6 @@
 ---
 
 <footer id="site">
-    <section class="info">
         <p>
             &copy; <script type="text/javascript" is:inline>
                 document.write(new Date().getFullYear());
@@ -12,24 +11,31 @@
                 target="_blank"
                 rel="noopener">Mack Richardson</a
             >
-            <br />
-            <a
-                href="https://twitter.com/mackdaddyfun"
-                target="_blank"
-                rel="noopener">Twitter</a
-            >
-            | <a
-                href="https://facebook.com/mackdaddyfun"
-                target="_blank"
-                rel="noopener">Facebook</a
-            >
-            | <a
-                href="https://instagram.com/mackdaddyfun"
-                target="_blank"
-                rel="noopener">Instagram</a
-            >
         </p>
-    </section>
-    <span class="footer__deco">&nbsp;</span>
-    <span class="footer__bg">&nbsp;</span>
+            <section class="footer__social">
+                <a
+                    href="https://twitter.com/mackdaddyfun"
+                    target="_blank"
+                    rel="noopener">Twitter</a
+                >
+                | <a
+                    href="https://facebook.com/mackdaddyfun"
+                    target="_blank"
+                    rel="noopener">Facebook</a
+                >
+                | <a
+                    href="https://instagram.com/mackdaddyfun"
+                    target="_blank"
+                    rel="noopener">Instagram</a
+                >
+            </section>
 </footer>
+
+<style lang="css">
+footer {
+    margin-block: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+</style>

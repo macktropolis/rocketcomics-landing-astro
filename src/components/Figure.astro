@@ -1,11 +1,11 @@
 ---
-const { id, alt, title } = Astro.props;
+const { id, alt, title, class: className } = Astro.props;
 const src = "/images/rocket_comics";
 const filename = "rocket_comics_" + id + ".webp";
 const href = src + "/" + filename;
 ---
 
-<figure>
+<figure class={className}>
     <a href={href} title={title ?? "Rocket Comics"} target="_blank">
         <img
             src={href}

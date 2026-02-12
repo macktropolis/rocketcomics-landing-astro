@@ -10,14 +10,36 @@
 }
 
 @font-face {
-    font-family: 'wieringo';
-    src: url('/fonts/wieringo/ccmikewieringoregular-webfont.eot');
-    src: url('/fonts/wieringo/ccmikewieringoregular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/wieringo/ccmikewieringoregular-webfont.woff') format('woff'),
-         url('/fonts/wieringo/ccmikewieringoregular-webfont.ttf') format('truetype'),
-         url('/fonts/wieringo/ccmikewieringoregular-webfont.svg#CCMikeWieringoRegular') format('svg');
+    font-family: 'anime_ace';
+    src: url('/fonts/anime_ace_2_reg/animeace2_reg-webfont.woff2') format('woff2'),
+         url('/fonts/anime_ace_2_reg/animeace2_reg-webfont.woff') format('woff'),
+         url('/fonts/anime_ace_2_reg/animeace2_reg-webfont.ttf') format('truetype'),
+         url('/fonts/anime_ace_2_reg/animeace2_reg-webfont.svg#anime_ace_2.0_bbregular') format('svg');
     font-weight: normal;
     font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'anime_ace_italic';
+    src: url('/fonts/anime_ace_2_itl/animeace2_ital-webfont.woff2') format('woff2'),
+         url('/fonts/anime_ace_2_itl/animeace2_ital-webfont.woff') format('woff'),
+         url('/fonts/anime_ace_2_itl/animeace2_ital-webfont.ttf') format('truetype'),
+         url('/fonts/anime_ace_2_itl/animeace2_ital-webfont.svg#anime_ace_2.0_bbitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'anime_ace_bold_italic';
+    src: url('/fonts/anime_ace_2_bld/animeace2_bld-webfont.woff2') format('woff2'),
+         url('/fonts/anime_ace_2_bld/animeace2_bld-webfont.woff') format('woff'),
+         url('/fonts/anime_ace_2_bld/animeace2_bld-webfont.ttf') format('truetype'),
+         url('/fonts/anime_ace_2_bld/animeace2_bld-webfont.svg#anime_ace_2.0_bbbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 :root {
@@ -28,6 +50,6 @@
 --clr-bristol: #fdfcf8;
 
 /* Font Families */
---ff-wieringo: "wieringo", sans-serif;
---ff-silverage: "silverage", serif;
+--ff-display: "anime_ace", sans-serif;
+--ff-body: "silverage", serif;
 }
