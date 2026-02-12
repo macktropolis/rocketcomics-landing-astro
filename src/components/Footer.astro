@@ -3,39 +3,54 @@
 ---
 
 <footer id="site">
-        <p>
-            &copy; <script type="text/javascript" is:inline>
-                document.write(new Date().getFullYear());
-            </script> Rocket Comics. All Rights Reserved. Designed by <a
-                href="https://mackrichardson.com"
-                target="_blank"
-                rel="noopener">Mack Richardson</a
-            >
-        </p>
-            <section class="footer__social">
-                <a
-                    href="https://twitter.com/mackdaddyfun"
-                    target="_blank"
-                    rel="noopener">Twitter</a
-                >
-                | <a
-                    href="https://facebook.com/mackdaddyfun"
-                    target="_blank"
-                    rel="noopener">Facebook</a
-                >
-                | <a
-                    href="https://instagram.com/mackdaddyfun"
-                    target="_blank"
-                    rel="noopener">Instagram</a
-                >
-            </section>
+    <p>
+        &copy; <script type="text/javascript" is:inline>
+            document.write(new Date().getFullYear());
+        </script> Rocket Comics. All Rights Reserved. Designed by <a
+            href="https://mackrichardson.com"
+            target="_blank"
+            rel="noopener">Mack Richardson</a
+        >
+    </p>
+    <section class="footer__social">
+        <a
+            href="https://twitter.com/mackdaddyfun"
+            target="_blank"
+            rel="noopener">Twitter</a
+        >
+        | <a
+            href="https://facebook.com/mackdaddyfun"
+            target="_blank"
+            rel="noopener">Facebook</a
+        >
+        | <a
+            href="https://instagram.com/mackdaddyfun"
+            target="_blank"
+            rel="noopener">Instagram</a
+        >
+    </section>
+
+    <img
+        src="/images/rocket_comics_illustration.webp"
+        alt="Rocket Comics Storefront Illustration"
+        width="546"
+        height="486"
+        class="footer__logo"
+    />
 </footer>
 
 <style lang="css">
-footer {
-    margin-block: clamp(2rem, 5vw, 4rem);
-    text-align: center;
-    position: relative;
-    z-index: 10;
-}
+    footer {
+        margin-block: clamp(2rem, 5vw, 4rem);
+        text-align: center;
+        position: relative;
+        z-index: 10;
+    }
+    .footer__logo {
+        display: block;
+        height: auto;
+        margin: clamp(3rem, 2vw, 4rem) auto -3rem auto;
+        width: 200px;
+        mix-blend-mode: multiply;
+    }
 </style>
