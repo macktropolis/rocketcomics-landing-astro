@@ -1,5 +1,94 @@
 ---
-import Figure from "./Figure.astro";
+/**
+ * Gallery.astro (single-file version, no Figure.astro)
+ *
+ * Assumes images live in:
+ *   src/assets/images/rocket_comics/rocket_comics_*.webp
+ *
+ * NOTE: The glob path is relative to THIS file's location.
+ * If this file moves, adjust "../../assets/..." accordingly.
+ */
+
+// Build-time discovery of images in src/assets
+const modules = import.meta.glob(
+    "../assets/images/rocket_comics/rocket_comics_*.webp",
+    { eager: true },
+) as Record<string, { default: string | { src: string } }>;
+
+// Captions/alt text lookup (Record makes captions[id] valid)
+const captions: Record<string, string> = {
+    "0": "An early advertisement for Rocket Comics in the Burlington-Times News",
+    "1": "Rocket Comics Pre-Launch, August 1991",
+    "2": "Inside Rocket Comics during construction, August 1991",
+    "4": "Opening Day, October 1991",
+    "5": "Welcome to Rocket Comics. Be our guest!",
+    "6": "Open for business!",
+    "7": "Open 7 days a week for your comic book needs!",
+    "8": "The Rocketeer greets customers at the grand opening of Rocket Comics",
+    "9": "Getting the day started at Rocket Comics",
+    "10": "Hard at work in the upgraded cash register area of Rocket Comics",
+    "11": "The original cash register area of Rocket Comics",
+    "12": "The display cases at Rocket Comics, filled with collectibles and back issues",
+    "13": "The back wall comics. This is where the expensive back issues were displayed.",
+    "14": "A close-up of a display case at Rocket Comics, showcasing a variety of collectibles and back issues.",
+    "15": "A close-up of another display case at Rocket Comics. Look at that cool Rancor figure from Kenner!",
+    "16": "Limited Edition Superman prints by Jim Steranko and Frank Miller",
+    "17": "A sample of posters and prints on display at Rocket Comics",
+    "18": "A lighted display sign promoting Marvel Comics. Love the McFarlane Spider-Man",
+    "19": "An Arkham Asylum promotional display",
+    "21": "The graphic novel and novels corner",
+    "22": "The even more expanded new comics racks",
+    "23": "...and yet more new comics",
+    "24": "Comic book supplies and more graphic novels",
+    "25": "The expanded new comics racks",
+    "26": "The original new comics racks...",
+    "27": "Look at all the cool posters!",
+    "28": "Stop reading comics and get back to work!",
+    "29": "Helping customers find their next read in the back issues bullpen",
+    "30": "The back issues bullpen's final form",
+    "31": "A much smaller back issue bullpen from the early days at Rocket Comics",
+    "32": "A view of Rocket Comics from the front door",
+    "33": "The expanded back issues bullpen",
+    "34": "The Toys and T-Shirts corner",
+    "35": "How sweet! Someone sent flowers for our grand opening",
+    "36": "More toys, models and cards",
+    "37": "Looking into the store from the back office",
+    "38": "Talking shop with some Rocket Comics Regulars",
+    "39": "A little horse trading with a customer",
+    "40": "Toys, model kits and more",
+    "41": "The back office",
+    "42": "A view of Rocket Comics from the back door",
+    "44": "Teenage Mutant Ninja Turtles...Heroes on the Halfshell",
+    "45": "Mack and Tripp slacking off...again!",
+    "46": "Tripp is serious about his TMNT",
+    "47": "The back office at Rocket Comics",
+    "48": "Rocket Comics' Mission Control. The Mac Classic was awesome!",
+    "49": "Friendly service even over the phone",
+    "50": "Rocket Comics ran on ALOT of coffee",
+    "51": "Craig Gilmore, a Rocket Comics employee, would go on to be a successful comic book artist",
+    "52": "Playing Trivial Pursuit on a break with long time friend, Lynn. Mack is hiding in the shadows...like Batman.",
+};
+
+// Optional: per-image classes
+const zoomIds = new Set<string>([""]);
+
+// Turn glob results into sorted image records
+const images = Object.entries(modules)
+    .map(([path, mod]) => {
+        const filename = path.split("/").pop() ?? "";
+        const m = filename.match(/rocket_comics_(\d+)\.webp$/);
+        const id = m?.[1] ?? "0";
+
+        const def = mod.default;
+        const src = typeof def === "string" ? def : def.src;
+
+        const filename_root = `rocket_comics_${id}`;
+        const alt = captions[id] ?? `Rocket Comics photo #${id}`;
+        const title = "Rocket Comics";
+
+        return { id, src, alt, title, filename_root };
+    })
+    .sort((a, b) => Number(a.id) - Number(b.id));
 ---
 
 <header>
@@ -19,268 +108,58 @@ import Figure from "./Figure.astro";
 
 <div class="gallery">
     <div class="gallery-images">
-        <Figure
-            id="1"
-            filename="rocket_comics_1.webp"
-            alt="Rocket Comics Pre-Launch, August 1991"
-        />
-        <Figure
-            id="2"
-            filename="rocket_comics_2.webp"
-            alt="Inside Rocket Comics during construction, August 1991"
-        />
-        <Figure
-            id="0"
-            filename="rocket_comics_0.webp"
-            alt="An early advertisement for Rocket Comics in the Burlington-Times News"
-        />
-        <Figure
-            id="4"
-            filename="rocket_comics_4.webp"
-            alt="Opening Day, October 1991"
-        />
-        <!--
-        <Figure
-            id="3"
-            filename="rocket_comics_3.webp"
-            alt="Opening Day, October 1991"
-        />
-        -->
-        <Figure
-            id="5"
-            filename="rocket_comics_5.webp"
-            alt="Opening Day, October 1991"
-        />
-        <Figure
-            id="6"
-            class="zoom"
-            filename="rocket_comics_6.webp"
-            alt="Welcome to Rocket Comics. Be our guest!"
-        />
-        <Figure
-            id="8"
-            filename="rocket_comics_8.webp"
-            alt="The Rocketeer greets customers at the grand opening of Rocket Comics"
-        />
-        <Figure
-            id="7"
-            filename="rocket_comics_7.webp"
-            alt="Open 7 days a week for your comic book needs!"
-        />
-        <Figure
-            id="9"
-            filename="rocket_comics_9.webp"
-            alt="Getting the day started at Rocket Comics"
-        />
-        <Figure
-            id="11"
-            filename="rocket_comics_11.webp"
-            alt="The original cash register area of Rocket Comics"
-        />
-        <Figure
-            id="12"
-            filename="rocket_comics_12.webp"
-            alt="The display cases at Rocket Comics, filled with collectibles and back issues"
-        />
-        <Figure
-            id="13"
-            filename="rocket_comics_13.webp"
-            alt="The back wall comics. This is where the expensive back issues were displayed."
-        />
-        <Figure
-            id="14"
-            filename="rocket_comics_14.webp"
-            alt="A close-up of a display case at Rocket Comics, showcasing a variety of collectibles and back issues."
-        />
-        <Figure
-            id="15"
-            filename="rocket_comics_15.webp"
-            alt="A close-up of another display case at Rocket Comics. Look at that cool Rancor figure from Kenner!"
-        />
-        <Figure
-            id="10"
-            filename="rocket_comics_10.webp"
-            alt="Hard at work in the upgraded cash register area of Rocket Comics"
-        />
-        <Figure
-            id="16"
-            filename="rocket_comics_16.webp"
-            alt="Limited Edition Superman prints by Jim Steranko and Frank Miller"
-        />
-        <Figure
-            id="17"
-            filename="rocket_comics_17.webp"
-            alt="A sample of posters and prints on display at Rocket Comics"
-        />
-        <Figure
-            id="18"
-            filename="rocket_comics_18.webp"
-            alt="A lighted display sign promoting Marvel Comics. Love the McFarlane Spider-Man"
-        />
-        <Figure
-            id="19"
-            filename="rocket_comics_19.webp"
-            alt="An Arkham Asylum promotional display"
-        />
-        <Figure
-            id="26"
-            filename="rocket_comics_26.webp"
-            alt="The original new comics racks..."
-        />
-        <Figure
-            id="25"
-            filename="rocket_comics_25.webp"
-            alt="The expanded new comics racks"
-        />
-        <Figure
-            id="22"
-            filename="rocket_comics_22.webp"
-            alt="The even more expanded new comics racks"
-        />
-        <Figure
-            id="23"
-            filename="rocket_comics_23.webp"
-            alt="...and yet more new comics"
-        />
-        <Figure
-            id="27"
-            filename="rocket_comics_27.webp"
-            alt="Look at all the cool posters!"
-        />
-        <Figure
-            id="28"
-            filename="rocket_comics_28.webp"
-            alt="Stop reading comics and get back to work!"
-        />
-        <Figure
-            id="21"
-            filename="rocket_comics_21.webp"
-            alt="The graphic novel and novels corner"
-        />
-        <Figure
-            id="24"
-            filename="rocket_comics_24.webp"
-            alt="Comic book supplies and more graphic novels"
-        />
-        <Figure
-            id="31"
-            filename="rocket_comics_31.webp"
-            alt="A much smaller back issue bullpen from the early days at Rocket Comics"
-        />
-        <Figure
-            id="33"
-            filename="rocket_comics_33.webp"
-            alt="The expanded back issues bullpen"
-        />
-        <Figure
-            id="30"
-            filename="rocket_comics_30.webp"
-            alt="The back issues bullpen's final form"
-        />
-        <Figure
-            id="29"
-            filename="rocket_comics_29.webp"
-            alt="Helping customers find their next read in the back issues bullpen"
-        />
-        <Figure
-            id="38"
-            filename="rocket_comics_38.webp"
-            alt="Talking shop with some Rocket Comics Regulars"
-        />
-        <Figure
-            id="32"
-            filename="rocket_comics_32.webp"
-            alt="A view of Rocket Comics from the front door"
-        />
-        <Figure
-            id="34"
-            filename="rocket_comics_34.webp"
-            alt="The Toys and T-Shirts corner"
-        />
-        <Figure
-            id="35"
-            filename="rocket_comics_35.webp"
-            alt="How sweet! Someone sent flowers for our grand opening"
-        />
-        <Figure
-            id="40"
-            filename="rocket_comics_40.webp"
-            alt="Toys, model kits and more"
-        />
-        <Figure
-            id="36"
-            filename="rocket_comics_36.webp"
-            alt="More toys, models and cards"
-        />
-        <Figure
-            id="37"
-            filename="rocket_comics_37.webp"
-            alt="Looking into the store from the back office"
-        />
-        <Figure
-            id="39"
-            filename="rocket_comics_39.webp"
-            alt="A little horse trading with a customer"
-        />
-        <Figure
-            id="41"
-            filename="rocket_comics_41.webp"
-            alt="The back office"
-        />
-        <Figure
-            id="42"
-            filename="rocket_comics_42.webp"
-            alt="A view of Rocket Comics from the back door"
-        />
-        <!-- <Figure id="43" filename="rocket_comics_43.webp" alt="43" /> -->
-        <Figure
-            id="44"
-            filename="rocket_comics_44.webp"
-            alt="Teenage Mutant Ninja Turtles...Heroes on the Halfshell"
-        />
-        <Figure
-            id="45"
-            filename="rocket_comics_45.webp"
-            alt="Mack and Tripp slacking off...again!"
-        />
-        <Figure
-            id="46"
-            filename="rocket_comics_46.webp"
-            alt="Tripp is serious about his TMNT"
-        />
-        <Figure
-            id="47"
-            filename="rocket_comics_47.webp"
-            alt="The back office at Rocket Comics"
-        />
-        <Figure
-            id="48"
-            filename="rocket_comics_48.webp"
-            alt="Rocket Comics' Mission Control. The Mac Classic was awesome!"
-        />
-        <Figure
-            id="49"
-            filename="rocket_comics_49.webp"
-            alt="Friendly service even over the phone"
-        />
-        <Figure
-            id="50"
-            filename="rocket_comics_50.webp"
-            alt="Rocket Comics ran on ALOT of coffee"
-        />
-        <Figure
-            id="51"
-            filename="rocket_comics_51.webp"
-            alt="Craig Gilmore, a Rocket Comics employee, would go on to be a successful comic book artist"
-        />
-        <Figure
-            id="52"
-            filename="rocket_comics_52.webp"
-            alt="Playing Trivial Pursuit on a break."
-        />
-        <!-- 
-        <Figure id="53" filename="rocket_comics_53.webp" alt="53" />
-        <Figure id="54" filename="rocket_comics_54.webp" alt="54" /> 
-        -->
+        {
+            images.map((img) => (
+                <>
+                    <figure class={zoomIds.has(img.id) ? "zoom" : undefined}>
+                        <a
+                            href={"#" + img.filename_root}
+                            title={img.title}
+                            class="thumb"
+                        >
+                            <img
+                                src={img.src}
+                                alt={img.alt}
+                                title={img.title}
+                                loading="lazy"
+                            />
+                        </a>
+                        <figcaption>{img.alt}</figcaption>
+                    </figure>
+
+                    <div
+                        id={img.filename_root}
+                        tabindex="-1"
+                        class="lightbox"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label={img.alt}
+                    >
+                        <a
+                            href="#!"
+                            class="lightbox__overlay"
+                            aria-label="Close"
+                        />
+
+                        <figure class="lightbox__content">
+                            <img
+                                src={img.src}
+                                alt={img.alt}
+                                title={img.title}
+                                loading="lazy"
+                            />
+                            <figcaption>{img.alt}</figcaption>
+                            <a
+                                href="#!"
+                                class="lightbox__close"
+                                aria-label="Close"
+                            >
+                                ×
+                            </a>
+                        </figure>
+                    </div>
+                </>
+            ))
+        }
     </div>
 </div>
