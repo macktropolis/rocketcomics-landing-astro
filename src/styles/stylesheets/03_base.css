@@ -1,5 +1,5 @@
 body {
-    background: var(--clr-bristol);
+    background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
     color: var(--clr-blueline);
     font-family: var(--ff-body);
     font-size: clamp(1.25rem, 2vw, 1.5rem);

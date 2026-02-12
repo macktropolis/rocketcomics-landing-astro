@@ -5,7 +5,6 @@ import * as site from "../data/site.json";
 import BaseHead from "../components/BaseHead.astro";
 import BaseEnd from "../components/BaseEnd.astro";
 import Header from "../components/Header.astro";
-import Outro from "../components/Outro.astro";
 import Footer from "../components/Footer.astro";
 
 const { siteName, author, url, logo } = site;
@@ -20,7 +19,6 @@ const { siteName, author, url, logo } = site;
 			<main>
 				<slot />
 			</main>
-			<Outro />
 			<Footer />
 			<div class="reg reg--tl"><div class="ring"></div></div>
 			<div class="reg reg--tr"><div class="ring"></div></div>

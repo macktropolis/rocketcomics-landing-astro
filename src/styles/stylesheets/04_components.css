@@ -30,6 +30,7 @@
     height: 100%;
     border-left: 2px dashed var(--clr-blueline);
     border-right: 2px dashed var(--clr-blueline);
+    z-index: 0;
 }
 .page::after {
     content: "";
@@ -70,7 +71,7 @@
 /* Registration Marks
 -------------------------------------------------------------- */
 .reg {
-    background-color: var(--clr-bristol);
+    background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
     border-radius: 999px;
     position: absolute;
     width: var(--reg-size);
@@ -130,12 +131,12 @@
     .gallery-images {
         display: grid-lanes;
         gap: 10px;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 @supports not (display: grid-lanes) {
     .gallery-images {
-        columns: 400px; /* This line simulates the masonry layout */
+        columns: 300px; /* This line simulates the masonry layout */
         column-gap: 10px;
     }
 }
@@ -160,12 +161,13 @@
 .gallery-images figure figcaption {
     background: var(--clr-blueline-light);
     border: 2px solid var(--clr-blueline);
-    box-shadow: 3px 3px 0 var(--clr-bristol);
+    outline: 3px solid var(--clr-bristol);
+    box-shadow: 5px 5px 0 var(--clr-bristol), 8px 8px 0 var(--clr-blueline-light);
     color: var(--clr-bristol);
     font-family: var(--ff-display);
     left: -10px;
     max-width: 75%;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     pointer-events: none;
     position: absolute;
     top: -10px;
@@ -174,6 +176,7 @@
 }
 .gallery-images figure a {
     display: inline-block;
+    cursor:zoom-in;
     position: relative;
     z-index: 1;
 }
@@ -321,4 +324,20 @@
             margin-bottom: clamp(0.5rem, 1vw, 1rem);
             width: fit-content;
         }
+}
+
+/* Footer
+-------------------------------------------------------------- */
+.footer {
+    margin-top: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    position: relative;
+
+    .footer__logo {
+        display: block;
+        height: auto;
+        margin: clamp(2rem, 1vw, 3rem) auto 0 auto;
+        width: 200px;
+        mix-blend-mode: multiply;
+    }
 }
