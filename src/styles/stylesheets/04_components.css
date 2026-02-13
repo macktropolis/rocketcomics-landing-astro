@@ -93,7 +93,6 @@
 /* Handdrawn Border + Gallery Images Figure */
 .handdrawn,
 .gallery-images figure {
-    --sketch: var(--clr-blueline);
     border: 10px solid transparent;
     /* Inline SVG as border-image */
     border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M10 18 C 30 6, 56 10, 110 14 C 114 38, 112 62, 108 106 C 84 112, 54 114, 12 108 C 6 88, 8 58, 10 18 Z' fill='none' stroke='%2390cadd' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 25 round;
@@ -103,15 +102,13 @@
 }
 .handdrawn figcaption,
 .gallery-images figure figcaption {
-    background: var(--clr-blueline-light);
-    border: 2px solid var(--clr-blueline);
-    outline: 3px solid var(--clr-bristol);
-    box-shadow: 5px 5px 0 var(--clr-bristol), 8px 8px 0 var(--clr-blueline-light);
+    background: var(--clr-blueline);
+    box-shadow: 4px 4px 0 var(--clr-bristol);
     color: var(--clr-bristol);
     font-family: var(--ff-display);
     left: -10px;
     max-width: 75%;
-    padding: 0.5em 1em;
+    padding: 1em;
     pointer-events: none;
     position: absolute;
     top: -10px;
