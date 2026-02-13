@@ -175,7 +175,7 @@ const images = Object.entries(fullModules)
             thumbnail_root: `rocket_comics_${id}_thumb`,
         };
     })
-    .filter(Boolean)
+    .filter((img): img is NonNullable<typeof img> => img !== null)
     .sort((a, b) => Number(a!.id) - Number(b!.id));
 ---
 
