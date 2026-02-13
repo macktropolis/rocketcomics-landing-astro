@@ -368,7 +368,6 @@
 }
 .og-logo.alt {
     display: block;
-    margin-bottom: clamp(-1rem, -2vw, -3rem);
 }
 
 @media (min-width: 64rem) {
