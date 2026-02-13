@@ -1,19 +1,10 @@
 ---
-/**
- * Gallery.astro (single-file version, no Figure.astro)
- *
- * Assumes images live in:
- *   src/assets/images/rocket_comics/rocket_comics_*.webp
- *
- * NOTE: The glob path is relative to THIS file's location.
- * If this file moves, adjust "../../assets/..." accordingly.
- */
+import { getImage } from "astro:assets";
 
-// Build-time discovery of images in src/assets
 const modules = import.meta.glob(
     "../assets/images/rocket_comics/rocket_comics_*.webp",
     { eager: true },
-) as Record<string, { default: string | { src: string } }>;
+) as Record<string, { default: ImageMetadata }>;
 
 // Captions/alt text lookup (Record makes captions[id] valid)
 const captions: Record<string, string> = {
@@ -69,26 +60,86 @@ const captions: Record<string, string> = {
     "52": "Playing Trivial Pursuit on a break with long time friend, Lynn. Mack is hiding in the shadows...like Batman.",
 };
 
-// Optional: per-image classes
 const zoomIds = new Set<string>([""]);
 
-// Turn glob results into sorted image records
-const images = Object.entries(modules)
-    .map(([path, mod]) => {
-        const filename = path.split("/").pop() ?? "";
-        const m = filename.match(/rocket_comics_(\d+)\.webp$/);
-        const id = m?.[1] ?? "0";
+// Helper to make a srcset from widths
+const makeSrcset = async (
+    src: ImageMetadata,
+    widths: number[],
+    quality: number,
+) => {
+    const variants = await Promise.all(
+        widths.map(async (w) => {
+            const img = await getImage({
+                src,
+                width: w,
+                format: "webp",
+                quality,
+            });
+            return { w, src: img.src };
+        }),
+    );
+    return variants
+        .sort((a, b) => a.w - b.w)
+        .map((v) => `${v.src} ${v.w}w`)
+        .join(", ");
+};
 
-        const def = mod.default;
-        const src = typeof def === "string" ? def : def.src;
+const images = await Promise.all(
+    Object.entries(modules)
+        .map(async ([path, mod]) => {
+            const filename = path.split("/").pop() ?? "";
+            const m = filename.match(/rocket_comics_(\d+)\.webp$/);
+            const id = m?.[1] ?? "0";
 
-        const filename_root = `rocket_comics_${id}`;
-        const alt = captions[id] ?? `Rocket Comics photo #${id}`;
-        const title = "Rocket Comics";
+            const src = mod.default;
 
-        return { id, src, alt, title, filename_root };
-    })
-    .sort((a, b) => Number(a.id) - Number(b.id));
+            const filename_root = `rocket_comics_${id}`;
+            const alt = captions[id] ?? `Rocket Comics photo #${id}`;
+            const title = "Rocket Comics";
+
+            // THUMB sizes tuned to your 350px columns
+            const thumbWidths = [360, 420, 520, 840]; // 840 = 2x-ish for 420
+            const thumbSrcset = await makeSrcset(src, thumbWidths, 60);
+
+            // Pick a reasonable default thumb (browser may choose smaller via srcset)
+            const thumbDefault = await getImage({
+                src,
+                width: 420,
+                format: "webp",
+                quality: 60,
+            });
+
+            // LIGHTBOX sizes tuned to your 1200px max display
+            const lightWidths = [900, 1200, 1400, 1800]; // adjust up/down if you want
+            const lightSrcset = await makeSrcset(src, lightWidths, 80);
+
+            const lightDefault = await getImage({
+                src,
+                width: 1400,
+                format: "webp",
+                quality: 80,
+            });
+
+            return {
+                id,
+                alt,
+                title,
+                filename_root,
+
+                thumbSrc: thumbDefault.src,
+                thumbW: thumbDefault.attributes.width,
+                thumbH: thumbDefault.attributes.height,
+                thumbSrcset,
+
+                lightSrc: lightDefault.src,
+                lightW: lightDefault.attributes.width,
+                lightH: lightDefault.attributes.height,
+                lightSrcset,
+            };
+        })
+        .sort((a, b) => Number(a.id) - Number(b.id)),
+);
 ---
 
 <div class="gallery">
@@ -106,6 +157,7 @@ const images = Object.entries(modules)
             >
         </p>
     </header>
+
     <div class="gallery-images">
         {
             images.map((img) => (
@@ -117,10 +169,15 @@ const images = Object.entries(modules)
                             class="thumb"
                         >
                             <img
-                                src={img.src}
+                                src={img.thumbSrc}
+                                srcset={img.thumbSrcset}
+                                sizes="(max-width: 420px) 92vw, 350px"
+                                width={img.thumbW}
+                                height={img.thumbH}
                                 alt={img.alt}
                                 title={img.title}
                                 loading="lazy"
+                                decoding="async"
                             />
                         </a>
                         <figcaption>{img.alt}</figcaption>
@@ -142,10 +199,15 @@ const images = Object.entries(modules)
 
                         <figure class="lightbox__content">
                             <img
-                                src={img.src}
+                                src={img.lightSrc}
+                                srcset={img.lightSrcset}
+                                sizes="min(92vw, 1200px)"
+                                width={img.lightW}
+                                height={img.lightH}
                                 alt={img.alt}
                                 title={img.title}
                                 loading="lazy"
+                                decoding="async"
                             />
                             <figcaption>{img.alt}</figcaption>
                             <a
