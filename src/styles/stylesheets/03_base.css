@@ -115,6 +115,7 @@ main figure:hover::after {
 }
 ::-webkit-scrollbar-track {
     background: var(--clr-blueline-light);
+    border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {    
     background-color: var(--clr-blueline);
