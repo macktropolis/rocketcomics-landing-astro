@@ -1,0 +1,393 @@
+---
+/**
+ * Gallery.astro (Astro-native assets, CLS-safe, strict thumb/full parity)
+ *
+ * Folder:
+ *   src/assets/images/rocket_comics/
+ *
+ * Full size:
+ *   rocket_comics_{id}.webp
+ *
+ * Thumbnails:
+ *   rocket_comics_{id}_thumb.webp
+ *
+ * NOTE: The glob path is relative to THIS file's location.
+ * If this file moves, adjust "../assets/..." accordingly.
+ */
+
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+// ------------------------------
+// Config
+// ------------------------------
+const INITIAL_VISIBLE = 9; // how many images show on initial page load
+
+// Full-size images (imported as ImageMetadata, includes width/height)
+const fullModules = import.meta.glob(
+    "../assets/images/rocket_comics/rocket_comics_*.webp",
+    { eager: true },
+) as Record<string, { default: ImageMetadata }>;
+
+// Thumbnail images (imported as ImageMetadata, includes width/height)
+const thumbModules = import.meta.glob(
+    "../assets/images/rocket_comics/rocket_comics_*_thumb.webp",
+    { eager: true },
+) as Record<string, { default: ImageMetadata }>;
+
+// Captions/alt text lookup
+const captions: Record<string, string> = {
+    "0": "An early advertisement for Rocket Comics in the Burlington-Times News",
+    "1": "Rocket Comics Pre-Launch, August 1991",
+    "2": "Inside Rocket Comics during construction, August 1991",
+    "4": "Opening Day, October 1991",
+    "5": "Welcome to Rocket Comics. Be our guest!",
+    "6": "Open for business!",
+    "7": "Open 7 days a week for your comic book needs!",
+    "8": "The Rocketeer greets customers at the grand opening of Rocket Comics",
+    "9": "Getting the day started at Rocket Comics",
+    "10": "Hard at work in the upgraded cash register area of Rocket Comics",
+    "11": "The original cash register area of Rocket Comics",
+    "12": "The display cases at Rocket Comics, filled with collectibles and back issues",
+    "13": "The back wall comics. This is where the expensive back issues were displayed.",
+    "14": "A close-up of a display case at Rocket Comics, showcasing a variety of collectibles and back issues.",
+    "15": "A close-up of another display case at Rocket Comics. Look at that cool Rancor figure from Kenner!",
+    "16": "Limited Edition Superman prints by Jim Steranko and Frank Miller",
+    "17": "A sample of posters and prints on display at Rocket Comics",
+    "18": "A lighted display sign promoting Marvel Comics. Love the McFarlane Spider-Man",
+    "19": "An Arkham Asylum promotional display",
+    "21": "The graphic novel and novels corner",
+    "22": "The even more expanded new comics racks",
+    "23": "...and yet more new comics",
+    "24": "Comic book supplies and more graphic novels",
+    "25": "The expanded new comics racks",
+    "26": "The original new comics racks...",
+    "27": "Look at all the cool posters!",
+    "28": "Stop reading comics and get back to work!",
+    "29": "Helping customers find their next read in the back issues bullpen",
+    "30": "The back issues bullpen's final form",
+    "31": "A much smaller back issue bullpen from the early days at Rocket Comics",
+    "32": "A view of Rocket Comics from the front door",
+    "33": "The expanded back issues bullpen",
+    "34": "The Toys and T-Shirts corner",
+    "35": "How sweet! Someone sent flowers for our grand opening",
+    "36": "More toys, models and cards",
+    "37": "Looking into the store from the back office",
+    "38": "Talking shop with some Rocket Comics Regulars",
+    "39": "A little horse trading with a customer",
+    "40": "Toys, model kits and more",
+    "41": "The back office",
+    "42": "A view of Rocket Comics from the back door",
+    "44": "Teenage Mutant Ninja Turtles...Heroes on the Halfshell",
+    "45": "Mack and Tripp slacking off...again!",
+    "46": "Tripp is serious about his TMNT",
+    "47": "The back office at Rocket Comics",
+    "48": "Rocket Comics' Mission Control. The Mac Classic was awesome!",
+    "49": "Friendly service even over the phone",
+    "50": "Rocket Comics ran on ALOT of coffee",
+    "51": "Craig Gilmore, a Rocket Comics employee, would go on to be a successful comic book artist",
+    "52": "Playing Trivial Pursuit on a break with long time friend, Lynn. Mack is hiding in the shadows...like Batman.",
+};
+
+// Optional: per-image classes
+const zoomIds = new Set<string>([""]);
+
+// ------------------------------
+// Build ID sets + maps
+// ------------------------------
+const fullById: Record<string, ImageMetadata> = {};
+const thumbsById: Record<string, ImageMetadata> = {};
+const fullIds = new Set<string>();
+const thumbIds = new Set<string>();
+
+// Full-size: accept ONLY rocket_comics_{id}.webp (exclude *_thumb.webp)
+for (const [path, mod] of Object.entries(fullModules)) {
+    const filename = path.split("/").pop() ?? "";
+    const m = filename.match(/rocket_comics_(\d+)\.webp$/);
+    if (!m) continue;
+
+    const id = m[1];
+    fullIds.add(id);
+    fullById[id] = mod.default;
+}
+
+// Thumbs: rocket_comics_{id}_thumb.webp
+for (const [path, mod] of Object.entries(thumbModules)) {
+    const filename = path.split("/").pop() ?? "";
+    const m = filename.match(/rocket_comics_(\d+)_thumb\.webp$/);
+    if (!m) continue;
+
+    const id = m[1];
+    thumbIds.add(id);
+    thumbsById[id] = mod.default;
+}
+
+// ✅ Validation 1: full without thumb → FAIL BUILD
+{
+    const missingThumbs: string[] = [];
+    for (const id of fullIds) {
+        if (!thumbsById[id]) missingThumbs.push(id);
+    }
+
+    if (missingThumbs.length) {
+        missingThumbs.sort((a, b) => Number(a) - Number(b));
+        throw new Error(
+            `❌ Missing thumbnails for ${missingThumbs.length} image(s) in ../assets/images/rocket_comics/\n` +
+                missingThumbs
+                    .map(
+                        (id) =>
+                            `- rocket_comics_${id}.webp → expected rocket_comics_${id}_thumb.webp`,
+                    )
+                    .join("\n"),
+        );
+    }
+}
+
+// ✅ Validation 2: thumb without full → FAIL BUILD
+{
+    const orphanThumbs: string[] = [];
+    for (const id of thumbIds) {
+        if (!fullIds.has(id)) orphanThumbs.push(id);
+    }
+
+    if (orphanThumbs.length) {
+        orphanThumbs.sort((a, b) => Number(a) - Number(b));
+        throw new Error(
+            `❌ Orphan thumbnails found (${orphanThumbs.length}) in ../assets/images/rocket_comics/\n` +
+                orphanThumbs
+                    .map(
+                        (id) =>
+                            `- rocket_comics_${id}_thumb.webp → expected rocket_comics_${id}.webp`,
+                    )
+                    .join("\n"),
+        );
+    }
+}
+
+// ------------------------------
+// Final images array (CLS-safe)
+// ------------------------------
+type GalleryImage = {
+    id: string;
+    full: ImageMetadata;
+    thumb: ImageMetadata;
+    alt: string;
+    title: string;
+    filename_root: string;
+    thumbnail_root: string;
+};
+
+const images = Object.keys(fullById)
+    .map((id): GalleryImage => {
+        const alt = captions[id] ?? `Rocket Comics photo #${id}`;
+        const title = "Rocket Comics";
+
+        return {
+            id,
+            full: fullById[id],
+            thumb: thumbsById[id],
+            alt,
+            title,
+            filename_root: `rocket_comics_${id}`,
+            thumbnail_root: `rocket_comics_${id}_thumb`,
+        };
+    })
+    .sort((a, b) => Number(a) - Number(b));
+
+const imagesTop = images.slice(0, INITIAL_VISIBLE);
+const imagesMore = images.slice(INITIAL_VISIBLE);
+---
+
+<div class="gallery">
+    <header class="gallery__header">
+        <h2 class="center">
+            <i class="fa-utility-fill fa-semibold fa-rocket-launch"></i> Rocket Comics
+            Memories
+        </h2>
+        <p class="center">
+            <small>
+                <i>
+                    Please excuse the quality of some of these photos. Higher
+                    quality scans are in the works.
+                </i>
+            </small>
+        </p>
+    </header>
+
+    <div class="gallery-images">
+        {
+            imagesTop.map((img) => (
+                <figure class={zoomIds.has(img.id) ? "zoom" : undefined}>
+                    <a
+                        href={"#" + img.filename_root}
+                        title={img.title}
+                        class="thumb"
+                    >
+                        <Image
+                            src={img.thumb}
+                            alt={img.alt}
+                            title={img.title}
+                            loading="lazy"
+                        />
+                    </a>
+                    <figcaption>{img.alt}</figcaption>
+                </figure>
+            ))
+        }
+
+        {/* Lightboxes for the initially visible images */}
+        {
+            imagesTop.map((img) => (
+                <div
+                    id={img.filename_root}
+                    tabindex="-1"
+                    class="lightbox"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label={img.alt}
+                >
+                    <a href="#!" class="lightbox__overlay" aria-label="Close" />
+                    <figure class="lightbox__content">
+                        <Image
+                            src={img.full}
+                            alt={img.alt}
+                            title={img.title}
+                            loading="lazy"
+                        />
+                        <figcaption>{img.alt}</figcaption>
+                        <a href="#!" class="lightbox__close" aria-label="Close">
+                            ×
+                        </a>
+                    </figure>
+                </div>
+            ))
+        }
+
+        {
+            imagesMore.length > 0 && (
+                <details class="gallery-more">
+                    <summary class="gallery-more__btn">
+                        Show more photos{" "}
+                        <span class="gallery-more__meta">
+                            ({imagesMore.length})
+                        </span>
+                    </summary>
+
+                    <div class="gallery-more__wrap">
+                        {imagesMore.map((img) => (
+                            <figure
+                                class={zoomIds.has(img.id) ? "zoom" : undefined}
+                            >
+                                <a
+                                    href={"#" + img.filename_root}
+                                    title={img.title}
+                                    class="thumb"
+                                >
+                                    <Image
+                                        src={img.thumb}
+                                        alt={img.alt}
+                                        title={img.title}
+                                        loading="lazy"
+                                    />
+                                </a>
+                                <figcaption>{img.alt}</figcaption>
+                            </figure>
+                        ))}
+                    </div>
+
+                    {/* Lightboxes for the "more" images (only in DOM when details is opened) */}
+                    {imagesMore.map((img) => (
+                        <div
+                            id={img.filename_root}
+                            tabindex="-1"
+                            class="lightbox"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label={img.alt}
+                        >
+                            <a
+                                href="#!"
+                                class="lightbox__overlay"
+                                aria-label="Close"
+                            />
+                            <figure class="lightbox__content">
+                                <Image
+                                    src={img.full}
+                                    alt={img.alt}
+                                    title={img.title}
+                                    loading="lazy"
+                                />
+                                <figcaption>{img.alt}</figcaption>
+                                <a
+                                    href="#!"
+                                    class="lightbox__close"
+                                    aria-label="Close"
+                                >
+                                    ×
+                                </a>
+                            </figure>
+                        </div>
+                    ))}
+                </details>
+            )
+        }
+    </div>
+</div>
+
+<style>
+    /* DETAILS "Show more" control */
+    .gallery-more {
+        grid-column: 1 / -1;
+        margin-top: var(--sz-2x, 1rem);
+    }
+
+    .gallery-more > summary {
+        list-style: none;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .gallery-more > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .gallery-more__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        background: transparent;
+        font: inherit;
+    }
+
+    .gallery-more__meta {
+        opacity: 0.75;
+        font-size: 0.95em;
+    }
+
+    /* Match your existing gallery layout */
+    .gallery-more__wrap {
+        margin-top: var(--sz-2x, 1rem);
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+
+    /* Optional: subtle reveal */
+    .gallery-more[open] .gallery-more__wrap {
+        animation: galleryFadeIn 180ms ease-out both;
+    }
+
+    @keyframes galleryFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

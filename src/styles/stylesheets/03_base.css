@@ -27,6 +27,13 @@ p {
     line-height: clamp(1.4, 2vw, 1.75);
     text-wrap: pretty;
 }
+strong, b {
+    font-style: bold;
+    text-decoration: underline;
+}
+em, i {
+    font-style: italic;
+}
 
 /* Links
 -------------------------------------------------------------- */

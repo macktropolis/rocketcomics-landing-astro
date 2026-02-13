@@ -79,12 +79,12 @@
     .gallery-images {
         display: grid-lanes;
         gap: 5px;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 @supports not (display: grid-lanes) {
     .gallery-images {
-        columns: 350px; /* This line simulates the masonry layout */
+        columns: 300px; /* This line simulates the masonry layout */
         column-gap: 5px;
     }
 }
@@ -111,7 +111,7 @@
     color: var(--clr-bristol);
     font-family: var(--ff-display);
     left: -10px;
-    max-width: 75%;
+    max-width: 90%;
     padding: 1em;
     pointer-events: none;
     position: absolute;
@@ -370,7 +370,7 @@
         width: 25%;
         shape-outside: circle(50%);
         clip-path: circle(50%);
-        margin: 0.5rem 1.25rem 1rem 0;
+        margin: 1rem 1.5rem 1rem 0;
     }
     .og-logo.alt {
         display: none;
