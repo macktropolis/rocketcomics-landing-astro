@@ -352,7 +352,7 @@
     height: auto;
     margin-inline: auto;
     margin-bottom: 2rem;
-    transition: filter 600ms ease-in-out;
+    transition: all 600ms ease-in-out;
     width: 30%;
 }
 .og-logo {
@@ -360,12 +360,14 @@
 }
 .og-logo:hover {
     filter: none;
+    opacity: 1;
 }
 .og-logo::after {
     display: none;
 }
 .og-logo.alt {
     display: block;
+    opacity: 0.75;
 }
 
 @media (min-width: 64rem) {
