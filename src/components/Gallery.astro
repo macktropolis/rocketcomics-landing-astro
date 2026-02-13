@@ -1,17 +1,29 @@
 ---
 /**
- * Gallery.astro (single-file version, no Figure.astro)
+ * Gallery.astro (single-file version, strict thumb/full parity)
  *
  * Assumes images live in:
- *   src/assets/images/rocket_comics/rocket_comics_*.webp
+ *   src/assets/images/rocket_comics/
+ *
+ * Full size:
+ *   rocket_comics_{id}.webp
+ *
+ * Thumbnails:
+ *   rocket_comics_{id}_thumb.webp
  *
  * NOTE: The glob path is relative to THIS file's location.
- * If this file moves, adjust "../../assets/..." accordingly.
+ * If this file moves, adjust "../assets/..." accordingly.
  */
 
-// Build-time discovery of images in src/assets
-const modules = import.meta.glob(
+// Build-time discovery of full-size images in src/assets
+const fullModules = import.meta.glob(
     "../assets/images/rocket_comics/rocket_comics_*.webp",
+    { eager: true },
+) as Record<string, { default: string | { src: string } }>;
+
+// Build-time discovery of thumbnail images in src/assets
+const thumbModules = import.meta.glob(
+    "../assets/images/rocket_comics/rocket_comics_*_thumb.webp",
     { eager: true },
 ) as Record<string, { default: string | { src: string } }>;
 
@@ -72,23 +84,99 @@ const captions: Record<string, string> = {
 // Optional: per-image classes
 const zoomIds = new Set<string>([""]);
 
-// Turn glob results into sorted image records
-const images = Object.entries(modules)
+// Build full-id set (from fullModules)
+const fullIds = new Set<string>();
+for (const [path] of Object.entries(fullModules)) {
+    const filename = path.split("/").pop() ?? "";
+    const m = filename.match(/rocket_comics_(\d+)\.webp$/);
+    if (m) fullIds.add(m[1]);
+}
+
+// Build thumb lookup + thumb-id set (from thumbModules)
+const thumbsById: Record<string, string> = {};
+const thumbIds = new Set<string>();
+
+for (const [path, mod] of Object.entries(thumbModules)) {
+    const filename = path.split("/").pop() ?? "";
+    const m = filename.match(/rocket_comics_(\d+)_thumb\.webp$/);
+    if (!m) continue;
+
+    const id = m[1];
+    thumbIds.add(id);
+
+    const def = mod.default;
+    thumbsById[id] = typeof def === "string" ? def : def.src;
+}
+
+// ✅ Validation 1: full without thumb → FAIL BUILD
+{
+    const missingThumbs: string[] = [];
+    for (const id of fullIds) {
+        if (!thumbsById[id]) missingThumbs.push(id);
+    }
+
+    if (missingThumbs.length) {
+        missingThumbs.sort((a, b) => Number(a) - Number(b));
+        throw new Error(
+            `❌ Missing thumbnails for ${missingThumbs.length} image(s) in ../assets/images/rocket_comics/\n` +
+                missingThumbs
+                    .map(
+                        (id) =>
+                            `- rocket_comics_${id}.webp → expected rocket_comics_${id}_thumb.webp`,
+                    )
+                    .join("\n"),
+        );
+    }
+}
+
+// ✅ Validation 2: thumb without full → FAIL BUILD
+{
+    const orphanThumbs: string[] = [];
+    for (const id of thumbIds) {
+        if (!fullIds.has(id)) orphanThumbs.push(id);
+    }
+
+    if (orphanThumbs.length) {
+        orphanThumbs.sort((a, b) => Number(a) - Number(b));
+        throw new Error(
+            `❌ Orphan thumbnails found (${orphanThumbs.length}) in ../assets/images/rocket_comics/\n` +
+                orphanThumbs
+                    .map(
+                        (id) =>
+                            `- rocket_comics_${id}_thumb.webp → expected rocket_comics_${id}.webp`,
+                    )
+                    .join("\n"),
+        );
+    }
+}
+
+// Turn fullModules into sorted image records (thumbs are guaranteed to exist)
+const images = Object.entries(fullModules)
     .map(([path, mod]) => {
         const filename = path.split("/").pop() ?? "";
         const m = filename.match(/rocket_comics_(\d+)\.webp$/);
-        const id = m?.[1] ?? "0";
+        if (!m) return null;
+
+        const id = m[1];
 
         const def = mod.default;
-        const src = typeof def === "string" ? def : def.src;
+        const fullSrc = typeof def === "string" ? def : def.src;
 
-        const filename_root = `rocket_comics_${id}`;
         const alt = captions[id] ?? `Rocket Comics photo #${id}`;
         const title = "Rocket Comics";
 
-        return { id, src, alt, title, filename_root };
+        return {
+            id,
+            src: fullSrc, // full-size for lightbox
+            thumbSrc: thumbsById[id], // thumbnail for gallery grid
+            alt,
+            title,
+            filename_root: `rocket_comics_${id}`,
+            thumbnail_root: `rocket_comics_${id}_thumb`,
+        };
     })
-    .sort((a, b) => Number(a.id) - Number(b.id));
+    .filter(Boolean)
+    .sort((a, b) => Number(a!.id) - Number(b!.id));
 ---
 
 <div class="gallery">
@@ -106,6 +194,7 @@ const images = Object.entries(modules)
             >
         </p>
     </header>
+
     <div class="gallery-images">
         {
             images.map((img) => (
@@ -117,7 +206,7 @@ const images = Object.entries(modules)
                             class="thumb"
                         >
                             <img
-                                src={img.src}
+                                src={img.thumbSrc}
                                 alt={img.alt}
                                 title={img.title}
                                 loading="lazy"
