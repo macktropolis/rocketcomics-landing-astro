@@ -389,6 +389,7 @@
 -------------------------------------------------------------- */
 .reg {
     background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
+    background-blend-mode: screen;
     border-radius: 999px;
     position: absolute;
     width: var(--reg-size);
