@@ -1,13 +1,17 @@
 ---
-const { siteName, author, url } = Astro.props;
+import * as site from "../data/site.json";
+
+const { siteName, author, url, logo, description, ogLogo } = site;
 ---
 
 <h1 class="center">Welcome Back to {siteName}!</h1>
 <article class="intro">
     <img
-        src="/images/rocket_comics_logo.png"
+        src={ogLogo}
         alt="The original Rocket Comics logo."
         class="og-logo"
+        height="1536"
+        width="1536"
     />
     <p>
         In 1991, Mack Richardson opened the doors of Rocket Comics in

@@ -1,14 +1,18 @@
 ---
-const { siteName, author, url, logo, description } = Astro.props;
+import * as site from "../data/site.json";
+
+const { siteName, author, url, logo, description, ogLogo } = site;
 ---
 
 <header id="site-header" class="header">
     <h1 class="header__title">{siteName}</h1>
     <h2 class="header__subtitle">{description}</h2>
     <img
-        src="/images/rocket_comics_logo.png"
+        src={ogLogo}
         alt="The original Rocket Comics logo."
         class="og-logo alt"
+        height="1536"
+        width="1536"
     />
     <img
         src={logo}
@@ -16,5 +20,7 @@ const { siteName, author, url, logo, description } = Astro.props;
         class="header__logo"
         alt="Rocket Comics Building Illustration"
         aria-label="Rocket Comics Building Illustration"
+        width="1467"
+        height="764"
     />
 </header>

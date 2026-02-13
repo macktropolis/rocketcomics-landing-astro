@@ -10,7 +10,7 @@ interface Props {
     description?: string;
 }
 
-const { siteName, description, author, url, ogImage } = site;
+const { siteName, description, author, url, ogLogo } = site;
 ---
 
 <head>
@@ -38,12 +38,12 @@ const { siteName, description, author, url, ogImage } = site;
     <meta property="og:url" content={url} />
     <meta property="og:title" content={siteName} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogLogo} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={url} />
     <meta property="twitter:title" content={siteName} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImage} />
+    <meta property="twitter:image" content={ogLogo} />
 </head>
