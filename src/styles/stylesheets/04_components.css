@@ -71,17 +71,21 @@
 
 /* Gallery Images
 -------------------------------------------------------------- */
+.gallery-images {
+    width: fit-content;
+}
+
 @supports (display: grid-lanes) {
     .gallery-images {
         display: grid-lanes;
-        gap: 10px;
+        gap: 5px;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 }
 @supports not (display: grid-lanes) {
     .gallery-images {
         columns: 350px; /* This line simulates the masonry layout */
-        column-gap: 10px;
+        column-gap: 5px;
     }
 }
 .gallery-images figure {
