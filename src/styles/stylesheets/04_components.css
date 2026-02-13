@@ -5,7 +5,7 @@
     margin: clamp(1rem, 2vw, 3rem) auto;
     width: min(90dvw, 100ch);
     min-height: 100dvh;
-    padding: clamp(3rem, 5vw, 8rem);
+    padding: clamp(3rem, 5vw, 6rem);
 
     --reg-size: 32px;   /* total cross size */
     --reg-gap-h: -10px;    /* inset from horizontal edges */

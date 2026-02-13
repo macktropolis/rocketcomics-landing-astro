@@ -35,7 +35,6 @@ a {
     display: inline-block;
     position: relative;
     text-decoration: none;
-    white-space: nowrap;
 }
 a::after {
     content: "";
@@ -109,11 +108,13 @@ main figure:hover::after {
     opacity: 0;
 }
 
+/* Scrollbar
+-------------------------------------------------------------- */
 ::-webkit-scrollbar {
-    width: 18px;
+    width: 16px;
 }
 ::-webkit-scrollbar-track {
-    background: var(--clr-bristol);
+    background: var(--clr-blueline-light);
 }
 ::-webkit-scrollbar-thumb {    
     background-color: var(--clr-blueline);
