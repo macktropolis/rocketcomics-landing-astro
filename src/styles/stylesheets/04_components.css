@@ -52,7 +52,7 @@
     display: block;
     height: auto;
     margin-top: clamp(-2rem, -3vw, -4rem);
-    margin-bottom: 0;
+    margin-bottom: clamp(1rem, 1vw, 2rem);
     margin-inline: auto;
     mix-blend-mode: multiply;
     width: 90%;
@@ -199,9 +199,7 @@
 
 /* Caption */
 .gallery-images figure.lightbox__content figcaption {
-    color: var(--clr-bristol);
-    font-size: 0.95rem;
-    text-align: center;
+    display: none;
 }
 
 /* Close button */
