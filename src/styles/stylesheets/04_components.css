@@ -340,18 +340,12 @@
 /* OG Rocket Comics Logo
 -------------------------------------------------------------- */
 .og-logo {
-    filter:
-        grayscale(1)
-        sepia(1)
-        hue-rotate(155deg)
-        saturate(250%)
-        brightness(120%)
-        contrast(105%);
     mix-blend-mode: multiply;
     display: none;
     height: auto;
     margin-inline: auto;
     margin-bottom: 2rem;
+    opacity: 0.75;
     transition: all 600ms ease-in-out;
     width: 30%;
 }
@@ -359,7 +353,6 @@
     display: none;
 }
 .og-logo:hover {
-    filter: none;
     opacity: 1;
 }
 .og-logo::after {
@@ -367,7 +360,6 @@
 }
 .og-logo.alt {
     display: block;
-    opacity: 0.75;
 }
 
 @media (min-width: 64rem) {
