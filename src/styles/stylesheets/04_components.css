@@ -1,10 +1,3 @@
-/* Cards
--------------------------------------------------------------- */
-.card {
-    display: block;
-    justify-content: space-around;
-}
-
 /* Page
 -------------------------------------------------------------- */
 .page {
@@ -59,7 +52,7 @@
     display: block;
     height: auto;
     margin-top: clamp(-2rem, -3vw, -4rem);
-    margin-bottom: clamp(-1rem, -2vw, -3rem);
+    margin-bottom: 0;
     margin-inline: auto;
     mix-blend-mode: multiply;
     width: 90%;
@@ -69,51 +62,6 @@
         max-width: 75%;
     }
 }
-
-/* Registration Marks
--------------------------------------------------------------- */
-.reg {
-    background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
-    border-radius: 999px;
-    position: absolute;
-    width: var(--reg-size);
-    height: var(--reg-size);
-    pointer-events:none;
-    z-index: 100;
-}
-.reg::before,
-.reg::after {
-  content:"";
-  position: absolute;
-  inset:0;
-  margin: auto;
-  background: var(--clr-blueline);
-}
-
-.reg::before {
-  width: var(--reg-stroke);
-  height: 50%;
-}
-.reg::after {
-  height: var(--reg-stroke);
-  width: 50%;
-}
-
-.reg > .ring {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: var(--reg-circle);
-  height: var(--reg-circle);
-  border: var(--reg-stroke) solid var(--clr-blueline);
-  border-radius: 999px;
-}
-
-/* positions */
-.reg--tl { top: var(--reg-gap-v); left: var(--reg-gap-h); }
-.reg--tr { top: var(--reg-gap-v); right: var(--reg-gap-h); }
-.reg--bl { bottom: var(--reg-gap-v); left: var(--reg-gap-h); }
-.reg--br{ bottom: var(--reg-gap-v); right: var(--reg-gap-h); }
 
 /* Gallery
 -------------------------------------------------------------- */
@@ -178,11 +126,11 @@
 }
 .gallery-images figure a img {
     filter:
-    grayscale(1)
-    sepia(1)
-    hue-rotate(170deg)
-    saturate(1.4)
-    contrast(1.15);
+        grayscale(1)
+        sepia(1)
+        hue-rotate(170deg)
+        saturate(1.4)
+        contrast(1.15);
     margin: 0;
     mix-blend-mode: multiply;
     transition: filter 600ms ease-in-out; /* add this */
@@ -279,7 +227,34 @@
     display: none;
 }
 .gallery-images figure.lightbox__content a.lightbox__close:hover {
-  box-shadow: 0 0 0 var(--clr-bristol);
+    box-shadow: 0 0 0 var(--clr-bristol);
+}
+
+/*  Intro
+------------------------------------------------------------- */
+.intro {
+    clear: both;
+    max-width: 80ch;
+    margin-inline: auto;
+    margin-bottom: clamp(3rem, 10vw, 6rem);
+}
+.intro h1 {
+    margin-bottom: clamp(1rem, 5vw, 3rem);
+}
+/* Keep captions readable but subtle */
+.intro figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    opacity: 0.8;
+    text-align: center;
+}
+
+.intro > figure.handdrawn {
+    max-width: 50%;
+}
+.intro figure.handdrawn figcaption {
+    opacity: 1;
+    margin: 0;
 }
 
 /* Outro
@@ -298,20 +273,8 @@
      }
 }
 
-@media (min-width: 64rem) {
-    .outro {
-        flex-wrap: nowrap;
-
-        h2 {
-            text-align: left;
-        }
-    }
-}
-
 .outro aside {
     margin-left: auto;
-
-       
 
         section {
             display: flex;
@@ -322,18 +285,33 @@
             margin-top: clamp(1rem, 2vw, 2rem);
         }
 
+         a {
+            display: block;
+            margin-bottom: clamp(0.5rem, 1vw, 1rem);
+            width: fit-content;
+        }
+
         @media (min-width: 64rem) {
             section {
                 flex-direction: row;
                 flex-wrap: wrap;
             }
         }
+}
 
-        a {
-            display: block;
-            margin-bottom: clamp(0.5rem, 1vw, 1rem);
-            width: fit-content;
+@media (min-width: 64rem) {
+    .outro {
+        flex-wrap: nowrap;
+
+        h2 {
+            text-align: left;
         }
+
+        aside section {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+    }
 }
 
 /* Footer
@@ -360,3 +338,102 @@
     width: 200px;
     mix-blend-mode: multiply;
 }
+
+/* OG Rocket Comics Logo
+-------------------------------------------------------------- */
+.og-logo {
+    filter:
+        grayscale(1)
+        sepia(1)
+        hue-rotate(155deg)
+        saturate(250%)
+        brightness(120%)
+        contrast(105%);
+    mix-blend-mode: multiply;
+    display: none;
+    height: auto;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+    transition: filter 600ms ease-in-out;
+    width: 30%;
+}
+.og-logo {
+    display: none;
+}
+.og-logo:hover {
+    filter: none;
+}
+.og-logo::after {
+    display: none;
+}
+.og-logo.alt {
+    display: block;
+    margin-bottom: clamp(-1rem, -2vw, -3rem);
+}
+
+@media (min-width: 64rem) {
+    .og-logo {
+        display: block;
+        float: left;
+        max-width: 250px;
+        width: 25%;
+        shape-outside: circle(50%);
+        clip-path: circle(50%);
+        margin: 0.5rem 1.25rem 1rem 0;
+    }
+    .og-logo.alt {
+        display: none;
+    }
+}
+
+/* Cards
+-------------------------------------------------------------- */
+.card {
+    display: block;
+    justify-content: space-around;
+}
+
+/* Registration Marks
+-------------------------------------------------------------- */
+.reg {
+    background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
+    border-radius: 999px;
+    position: absolute;
+    width: var(--reg-size);
+    height: var(--reg-size);
+    pointer-events:none;
+    z-index: 100;
+}
+.reg::before,
+.reg::after {
+  content:"";
+  position: absolute;
+  inset:0;
+  margin: auto;
+  background: var(--clr-blueline);
+}
+
+.reg::before {
+  width: var(--reg-stroke);
+  height: 50%;
+}
+.reg::after {
+  height: var(--reg-stroke);
+  width: 50%;
+}
+
+.reg > .ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--reg-circle);
+  height: var(--reg-circle);
+  border: var(--reg-stroke) solid var(--clr-blueline);
+  border-radius: 999px;
+}
+
+/* positions */
+.reg--tl { top: var(--reg-gap-v); left: var(--reg-gap-h); }
+.reg--tr { top: var(--reg-gap-v); right: var(--reg-gap-h); }
+.reg--bl { bottom: var(--reg-gap-v); left: var(--reg-gap-h); }
+.reg--br{ bottom: var(--reg-gap-v); right: var(--reg-gap-h); }

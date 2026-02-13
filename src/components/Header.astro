@@ -5,5 +5,16 @@ const { siteName, author, url, logo, description } = Astro.props;
 <header id="site-header" class="header">
     <h1 class="header__title">{siteName}</h1>
     <h2 class="header__subtitle">{description}</h2>
-    <img src={logo} alt={siteName} class="header__logo" id="site-logo" />
+    <img
+        src="/images/rocket_comics_logo.png"
+        alt="The original Rocket Comics logo."
+        class="og-logo alt"
+    />
+    <img
+        src={logo}
+        alt={siteName}
+        class="header__logo"
+        alt="Rocket Comics Building Illustration"
+        aria-label="Rocket Comics Building Illustration"
+    />
 </header>

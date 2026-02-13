@@ -10,11 +10,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--ff-display);
     font-weight: 900;
-    letter-spacing: min(0.05em, 0.1vw);  
+    letter-spacing: min(0.05em, 0.1vw);
     text-wrap: balance;
 }
 h1 {
     font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: clamp(1.5rem, 2vw, 2rem); 
 }
 h2 {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
