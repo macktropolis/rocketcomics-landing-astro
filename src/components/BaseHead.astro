@@ -2,9 +2,6 @@
 // data imports
 import * as site from "../data/site.json";
 
-// component imports
-import GoogleAnalytics from "./GoogleAnalytics.astro";
-
 // stylesheet imports
 import "../styles/global.css";
 
@@ -17,7 +14,6 @@ const { siteName, description, author, url, ogImage } = site;
 ---
 
 <head>
-    <GoogleAnalytics />
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
@@ -36,14 +32,6 @@ const { siteName, description, author, url, ogImage } = site;
     <meta name="title" content={siteName} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
-
-    <!-- Fonts -->
-    <link rel="stylesheet" href="https://use.typekit.net/xva8kqj.css" />
-
-    <!-- Font Awesome -->
-    <script
-        src="https://kit.fontawesome.com/88922a1596.js"
-        crossorigin="anonymous"></script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
