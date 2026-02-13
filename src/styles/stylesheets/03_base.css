@@ -2,7 +2,7 @@ body {
     background: var(--clr-bristol) url("/images/bg_dots.jpg") repeat;
     color: var(--clr-blueline);
     font-family: var(--ff-body);
-    font-display: swap;
+    font-display: optional;
     font-size: clamp(1.5rem, 2vw, 1.5rem);
     min-height: 100dvh;
 }
