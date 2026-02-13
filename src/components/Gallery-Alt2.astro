@@ -1,8 +1,8 @@
 ---
 /**
- * Gallery.astro (Astro-native assets, CLS-safe, strict thumb/full parity)
+ * Gallery.astro (single-file version, strict thumb/full parity)
  *
- * Folder:
+ * Assumes images live in:
  *   src/assets/images/rocket_comics/
  *
  * Full size:
@@ -15,22 +15,19 @@
  * If this file moves, adjust "../assets/..." accordingly.
  */
 
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
-
-// Full-size images (imported as ImageMetadata, includes width/height)
+// Build-time discovery of full-size images in src/assets
 const fullModules = import.meta.glob(
     "../assets/images/rocket_comics/rocket_comics_*.webp",
     { eager: true },
-) as Record<string, { default: ImageMetadata }>;
+) as Record<string, { default: string | { src: string } }>;
 
-// Thumbnail images (imported as ImageMetadata, includes width/height)
+// Build-time discovery of thumbnail images in src/assets
 const thumbModules = import.meta.glob(
     "../assets/images/rocket_comics/rocket_comics_*_thumb.webp",
     { eager: true },
-) as Record<string, { default: ImageMetadata }>;
+) as Record<string, { default: string | { src: string } }>;
 
-// Captions/alt text lookup
+// Captions/alt text lookup (Record makes captions[id] valid)
 const captions: Record<string, string> = {
     "0": "An early advertisement for Rocket Comics in the Burlington-Times News",
     "1": "Rocket Comics Pre-Launch, August 1991",
@@ -87,26 +84,18 @@ const captions: Record<string, string> = {
 // Optional: per-image classes
 const zoomIds = new Set<string>([""]);
 
-// ------------------------------
-// Build ID sets + maps
-// ------------------------------
-const fullById: Record<string, ImageMetadata> = {};
-const thumbsById: Record<string, ImageMetadata> = {};
+// Build full-id set (from fullModules)
 const fullIds = new Set<string>();
-const thumbIds = new Set<string>();
-
-// Full-size: accept ONLY rocket_comics_{id}.webp (exclude *_thumb.webp)
-for (const [path, mod] of Object.entries(fullModules)) {
+for (const [path] of Object.entries(fullModules)) {
     const filename = path.split("/").pop() ?? "";
     const m = filename.match(/rocket_comics_(\d+)\.webp$/);
-    if (!m) continue;
-
-    const id = m[1];
-    fullIds.add(id);
-    fullById[id] = mod.default;
+    if (m) fullIds.add(m[1]);
 }
 
-// Thumbs: rocket_comics_{id}_thumb.webp
+// Build thumb lookup + thumb-id set (from thumbModules)
+const thumbsById: Record<string, string> = {};
+const thumbIds = new Set<string>();
+
 for (const [path, mod] of Object.entries(thumbModules)) {
     const filename = path.split("/").pop() ?? "";
     const m = filename.match(/rocket_comics_(\d+)_thumb\.webp$/);
@@ -114,7 +103,9 @@ for (const [path, mod] of Object.entries(thumbModules)) {
 
     const id = m[1];
     thumbIds.add(id);
-    thumbsById[id] = mod.default;
+
+    const def = mod.default;
+    thumbsById[id] = typeof def === "string" ? def : def.src;
 }
 
 // ✅ Validation 1: full without thumb → FAIL BUILD
@@ -159,35 +150,33 @@ for (const [path, mod] of Object.entries(thumbModules)) {
     }
 }
 
-// ------------------------------
-// Final images array (CLS-safe)
-// ------------------------------
-type GalleryImage = {
-    id: string;
-    full: ImageMetadata;
-    thumb: ImageMetadata;
-    alt: string;
-    title: string;
-    filename_root: string;
-    thumbnail_root: string;
-};
+// Turn fullModules into sorted image records (thumbs are guaranteed to exist)
+const images = Object.entries(fullModules)
+    .map(([path, mod]) => {
+        const filename = path.split("/").pop() ?? "";
+        const m = filename.match(/rocket_comics_(\d+)\.webp$/);
+        if (!m) return null;
 
-const images = Object.keys(fullById)
-    .map((id): GalleryImage => {
+        const id = m[1];
+
+        const def = mod.default;
+        const fullSrc = typeof def === "string" ? def : def.src;
+
         const alt = captions[id] ?? `Rocket Comics photo #${id}`;
         const title = "Rocket Comics";
 
         return {
             id,
-            full: fullById[id],
-            thumb: thumbsById[id],
+            src: fullSrc, // full-size for lightbox
+            thumbSrc: thumbsById[id], // thumbnail for gallery grid
             alt,
             title,
             filename_root: `rocket_comics_${id}`,
             thumbnail_root: `rocket_comics_${id}_thumb`,
         };
     })
-    .sort((a, b) => Number(a.id) - Number(b.id));
+    .filter((img): img is NonNullable<typeof img> => img !== null)
+    .sort((a, b) => Number(a!.id) - Number(b!.id));
 ---
 
 <div class="gallery">
@@ -216,9 +205,8 @@ const images = Object.keys(fullById)
                             title={img.title}
                             class="thumb"
                         >
-                            {/* Thumbnail (CLS-safe: width/height come from ImageMetadata) */}
-                            <Image
-                                src={img.thumb}
+                            <img
+                                src={img.thumbSrc}
                                 alt={img.alt}
                                 title={img.title}
                                 loading="lazy"
@@ -242,15 +230,13 @@ const images = Object.keys(fullById)
                         />
 
                         <figure class="lightbox__content">
-                            {/* Full-size (also CLS-safe) */}
-                            <Image
-                                src={img.full}
+                            <img
+                                src={img.src}
                                 alt={img.alt}
                                 title={img.title}
                                 loading="lazy"
                             />
                             <figcaption>{img.alt}</figcaption>
-
                             <a
                                 href="#!"
                                 class="lightbox__close"
