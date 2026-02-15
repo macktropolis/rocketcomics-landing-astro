@@ -38,7 +38,7 @@ em, i {
 /* Links
 -------------------------------------------------------------- */
 a {
-    color: var(--clr-blueline-light);
+    color: var(--clr-alert);
     display: inline-block;
     position: relative;
     text-decoration: none;
