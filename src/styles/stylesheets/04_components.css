@@ -141,6 +141,9 @@
 .gallery-images figure a:hover img {
     filter: none;
 }
+.gallery-images figure a::after {
+    display: none;
+}
 
 /* Modal
 -------------------------------------------------------------- */
