@@ -72,6 +72,8 @@
 /* Gallery Images
 -------------------------------------------------------------- */
 .gallery-images {
+    content-visibility: auto;
+    contain-intrinsic-size: 2000px; /* rough placeholder height */
     width: fit-content;
 }
 
