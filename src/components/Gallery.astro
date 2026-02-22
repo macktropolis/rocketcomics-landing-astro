@@ -2,6 +2,9 @@
 /**
  * Gallery.astro (Astro-native assets, CLS-safe, strict thumb/full parity)
  *
+ * Option A: Render ALL .lightbox nodes OUTSIDE `.gallery-images`
+ * so `position: fixed` is not affected by `content-visibility` containment.
+ *
  * Folder:
  *   src/assets/images/rocket_comics/
  *
@@ -206,62 +209,58 @@ const images = Object.keys(fullById)
         </p>
     </header>
 
+    <!-- Thumbnails ONLY (keep your content-visibility optimization here) -->
     <div class="gallery-images">
         {
             images.map((img) => (
-                <>
-                    <figure class={zoomIds.has(img.id) ? "zoom" : undefined}>
-                        <a
-                            href={"#" + img.filename_root}
-                            title={img.title}
-                            class="thumb"
-                        >
-                            {/* Thumbnail (CLS-safe: width/height come from ImageMetadata) */}
-                            <Image
-                                src={img.thumb}
-                                alt={img.alt}
-                                title={img.title}
-                                loading="lazy"
-                            />
-                        </a>
-                        <figcaption>{img.alt}</figcaption>
-                    </figure>
-
-                    <div
-                        id={img.filename_root}
-                        tabindex="-1"
-                        class="lightbox"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-label={img.alt}
+                <figure class={zoomIds.has(img.id) ? "zoom" : undefined}>
+                    <a
+                        href={"#" + img.filename_root}
+                        title={img.title}
+                        class="thumb"
                     >
-                        <a
-                            href="#!"
-                            class="lightbox__overlay"
-                            aria-label="Close"
+                        {/* Thumbnail (CLS-safe: width/height come from ImageMetadata) */}
+                        <Image
+                            src={img.thumb}
+                            alt={img.alt}
+                            title={img.title}
+                            loading="lazy"
                         />
-
-                        <figure class="lightbox__content">
-                            {/* Full-size (also CLS-safe) */}
-                            <Image
-                                src={img.full}
-                                alt={img.alt}
-                                title={img.title}
-                                loading="lazy"
-                            />
-                            <figcaption>{img.alt}</figcaption>
-
-                            <a
-                                href="#!"
-                                class="lightbox__close"
-                                aria-label="Close"
-                            >
-                                ×
-                            </a>
-                        </figure>
-                    </div>
-                </>
+                    </a>
+                    <figcaption>{img.alt}</figcaption>
+                </figure>
             ))
         }
     </div>
+
+    <!-- Lightboxes OUTSIDE .gallery-images (Option A fix) -->
+    {
+        images.map((img) => (
+            <div
+                id={img.filename_root}
+                tabindex="-1"
+                class="lightbox"
+                role="dialog"
+                aria-modal="true"
+                aria-label={img.alt}
+            >
+                <a href="#!" class="lightbox__overlay" aria-label="Close" />
+
+                <figure class="lightbox__content">
+                    {/* Full-size (CLS-safe) */}
+                    <Image
+                        src={img.full}
+                        alt={img.alt}
+                        title={img.title}
+                        loading="lazy"
+                    />
+                    <figcaption>{img.alt}</figcaption>
+
+                    <a href="#!" class="lightbox__close" aria-label="Close">
+                        ×
+                    </a>
+                </figure>
+            </div>
+        ))
+    }
 </div>

@@ -107,7 +107,7 @@
     display: inline-block;
 }
 .handdrawn figcaption,
-.gallery-images figure figcaption {
+figure figcaption {
     background: var(--clr-blueline);
     box-shadow: 4px 4px 0 var(--clr-bristol);
     color: var(--clr-bristol);
@@ -121,13 +121,13 @@
     width: fit-content;
     z-index: 11;
 }
-.gallery-images figure a {
+figure a {
     display: inline-block;
     cursor:zoom-in;
     position: relative;
     z-index: 1;
 }
-.gallery-images figure a img {
+figure a img {
     filter:
         grayscale(1)
         sepia(1)
@@ -138,10 +138,10 @@
     mix-blend-mode: multiply;
     transition: filter 600ms ease-in-out; /* add this */
 }
-.gallery-images figure a:hover img {
+figure a:hover img {
     filter: none;
 }
-.gallery-images figure a::after {
+figure a::after {
     display: none;
 }
 
@@ -173,13 +173,13 @@
 }
 
 /* Click-out overlay */
-.gallery-images .lightbox__overlay {
+.lightbox__overlay {
   position: absolute;
   inset: 0;
 }
 
 /* Modal content */
-.gallery-images figure.lightbox__content {
+figure.lightbox__content {
   position: relative;
   margin: 0;
   max-width: min(92vw, 1200px);
@@ -188,11 +188,11 @@
   gap: 0.75rem;
   justify-items: center;
 }
-.gallery-images figure.lightbox__content::after {
+figure.lightbox__content::after {
     display: none;
 }
 /* Image sizing */
-.gallery-images figure.lightbox__content img {
+figure.lightbox__content img {
     mix-blend-mode: normal;
     filter: none;
     width: 100%;
@@ -204,12 +204,12 @@
 }
 
 /* Caption */
-.gallery-images figure.lightbox__content figcaption {
+figure.lightbox__content figcaption {
     display: none;
 }
 
 /* Close button */
-.gallery-images figure.lightbox__content a.lightbox__close {
+figure.lightbox__content a.lightbox__close {
     background-color: var(--clr-blueline);
     box-shadow: 3px 3px 0 var(--clr-bristol);
     position: absolute;
@@ -225,10 +225,10 @@
     font-size: 2rem;
 }
 
-.gallery-images figure.lightbox__content a.lightbox__close::after {
+figure.lightbox__content a.lightbox__close::after {
     display: none;
 }
-.gallery-images figure.lightbox__content a.lightbox__close:hover {
+figure.lightbox__content a.lightbox__close:hover {
     background-color: var(--clr-alert);
     box-shadow: 0 0 0 var(--clr-bristol);
 }
